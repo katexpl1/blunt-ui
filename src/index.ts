@@ -32,6 +32,8 @@ export type {
 } from "./components/Select";
 export { Link } from "./components/Link";
 export type { LinkProps, LinkVariants } from "./components/Link";
+export { CollapsibleCard } from "./components/CollapsibleCard";
+export type { CollapsibleCardProps } from "./components/CollapsibleCard";
 export { useToast, ToastProvider } from "./hooks";
 export type { ToastOptions, ToastFn, ToastContextValue } from "./hooks";
 export { useForm } from "./hooks";

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { X } from "lucide-react";
 import { StyledToast, ToastMessage, CloseButton } from "./Toast.styles";
 import type { ToastProps } from "./Toast.types";
 
@@ -51,7 +52,7 @@ export function Toast({
     >
       <ToastMessage>{message}</ToastMessage>
       <CloseButton onClick={onClose} aria-label="Close notification">
-        ×
+        <X size={14} strokeWidth={2.5} />
       </CloseButton>
     </StyledToast>,
     document.body,

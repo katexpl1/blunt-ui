@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from "styled-components";
+import type { DefaultTheme } from "styled-components";
 import type { ToastVariants, ToastPosition } from "./Toast.types";
 
 const slideInBottom = keyframes`
@@ -29,8 +30,6 @@ export const ToastWrapper = styled.div<{
   max-width: 400px;
   padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[4]}`};
   border-radius: ${({ theme }) => theme.radius.md};
-  border-left: 4px solid transparent;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   animation: ${({ $closing, $position }) =>
     $closing
       ? css`
@@ -67,27 +66,60 @@ export const ToastWrapper = styled.div<{
   }}
 `;
 
+const brutalToast = (theme: DefaultTheme, bg: string, accent: string) => css`
+  background: ${bg};
+  border: ${theme.brutalism!.borderWidth} solid ${accent};
+  box-shadow: ${theme.brutalism!.shadowOffset} ${theme.brutalism!.shadowOffset}
+    0 ${accent};
+`;
+
 export const StyledToast = styled(ToastWrapper)<{ $variant: ToastVariants }>`
   ${({ $variant, theme }) => {
-    const styles: Record<ToastVariants, ReturnType<typeof css>> = {
+    if (theme.brutalism) {
+      const variants: Record<ToastVariants, ReturnType<typeof css>> = {
+        success: brutalToast(
+          theme,
+          theme.colors.success[50],
+          theme.colors.success[500],
+        ),
+        error: brutalToast(
+          theme,
+          theme.colors.error[50],
+          theme.colors.error[500],
+        ),
+        warning: brutalToast(
+          theme,
+          theme.colors.warning[50],
+          theme.colors.warning[500],
+        ),
+        info: brutalToast(theme, theme.colors.info[50], theme.colors.info[500]),
+      };
+      return variants[$variant];
+    }
+
+    const variants: Record<ToastVariants, ReturnType<typeof css>> = {
       success: css`
         background: ${theme.colors.success[50]};
-        border-left-color: ${theme.colors.success[500]};
+        border-left: 4px solid ${theme.colors.success[500]};
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
       `,
       error: css`
         background: ${theme.colors.error[50]};
-        border-left-color: ${theme.colors.error[500]};
+        border-left: 4px solid ${theme.colors.error[500]};
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
       `,
       warning: css`
         background: ${theme.colors.warning[50]};
-        border-left-color: ${theme.colors.warning[500]};
+        border-left: 4px solid ${theme.colors.warning[500]};
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
       `,
       info: css`
         background: ${theme.colors.info[50]};
-        border-left-color: ${theme.colors.info[500]};
+        border-left: 4px solid ${theme.colors.info[500]};
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
       `,
     };
-    return styles[$variant];
+    return variants[$variant];
   }}
 `;
 
@@ -95,6 +127,7 @@ export const ToastMessage = styled.p`
   flex: 1;
   margin: 0;
   font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-weight: ${({ theme }) => (theme.brutalism ? 600 : 400)};
   line-height: 1.5;
   color: ${({ theme }) => theme.colors.neutral[900]};
 `;
@@ -110,8 +143,6 @@ export const CloseButton = styled.button`
   background: none;
   cursor: pointer;
   border-radius: ${({ theme }) => theme.radius.md};
-  font-size: 18px;
-  line-height: 1;
   color: ${({ theme }) => theme.colors.neutral[500]};
 
   &:hover {
