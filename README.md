@@ -1,6 +1,6 @@
 # blunt-ui
 
-React + TypeScript + styled-components. Thick borders, offset shadows, no fluff. 8 components, 2 hooks.
+React + TypeScript + styled-components. Thick borders, offset shadows, no fluff. 9 components, 2 hooks.
 
 **Live demo:** https://blunt-ui.vercel.app/
 
@@ -64,6 +64,34 @@ Sizes: `sm`, `md`, `lg`, `fullscreen`.
 >
   This can't be undone.
 </Modal>
+```
+
+## CollapsibleCard
+
+A card with a clickable header that shows/hides its content. Supports controlled and uncontrolled modes, an optional subtitle, a slot for header actions, and an `accentColor` prop to tint the border and chevron.
+
+```tsx
+<CollapsibleCard
+  title="blunt-ui"
+  subtitle="Subtitle"
+  defaultOpen
+>
+  React component library in neo-brutalism style.
+</CollapsibleCard>
+```
+
+Pass `open` + `onToggle` for controlled mode:
+
+```tsx
+<CollapsibleCard
+  title="Project"
+  open={isOpen}
+  onToggle={setIsOpen}
+  accentColor="#f97316"
+  headerActions={<Badge variant="primary">npm</Badge>}
+>
+  {children}
+</CollapsibleCard>
 ```
 
 ## Toast

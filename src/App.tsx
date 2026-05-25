@@ -24,7 +24,7 @@ const BADGES = [
   "React",
   "TypeScript",
   "styled-components",
-  "8 components",
+  "9 components",
   "2 hooks",
 ];
 
@@ -70,6 +70,14 @@ function App() {
                 rel="noreferrer"
               >
                 GitHub
+              </Button>
+              <Button
+                variant="secondary"
+                href="https://www.npmjs.com/package/blunt-ui"
+                target="_blank"
+                rel="noreferrer"
+              >
+                npm
               </Button>
             </Actions>
             <ColorPickerRow>
