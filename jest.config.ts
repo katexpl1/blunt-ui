@@ -12,7 +12,7 @@ const config: Config = {
   testPathIgnorePatterns: ["/node_modules/", "/dist/"],
   globals: {
     "ts-jest": {
-      tsconfig: "tsconfig.app.json", // <-- wskaż swój tsconfig z JSX
+      tsconfig: "tsconfig.app.json",
     },
   },
 };

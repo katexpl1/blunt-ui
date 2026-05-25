@@ -100,7 +100,7 @@ export const NoBackdropClose: Story = {
       <>
         <Button onClick={() => setOpen(true)}>Open modal</Button>
         <Modal {...args} open={open} onClose={() => setOpen(false)}>
-          <p>Clicking outside does nothing. Use the X button or press Escape.</p>
+          <p>Use X button or press Escape to close modal</p>
         </Modal>
       </>
     );
@@ -119,7 +119,7 @@ export const NoTitle: Story = {
       <>
         <Button onClick={() => setOpen(true)}>Open modal</Button>
         <Modal {...args} open={open} onClose={() => setOpen(false)}>
-          <p>No title here, just the close button in the corner.</p>
+          <p>No title ^^^</p>
         </Modal>
       </>
     );

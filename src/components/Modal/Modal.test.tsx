@@ -4,12 +4,20 @@ import { Modal } from "./Modal";
 
 describe("Modal component", () => {
   it("renders when open is true", () => {
-    render(<Modal open={true} onClose={() => {}}>Content</Modal>);
+    render(
+      <Modal open={true} onClose={() => {}}>
+        Content
+      </Modal>,
+    );
     expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 
   it("does not render when open is false", () => {
-    render(<Modal open={false} onClose={() => {}}>Content</Modal>);
+    render(
+      <Modal open={false} onClose={() => {}}>
+        Content
+      </Modal>,
+    );
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
@@ -23,7 +31,11 @@ describe("Modal component", () => {
   });
 
   it("renders children", () => {
-    render(<Modal open={true} onClose={() => {}}>Modal body</Modal>);
+    render(
+      <Modal open={true} onClose={() => {}}>
+        Modal body
+      </Modal>,
+    );
     expect(screen.getByText("Modal body")).toBeInTheDocument();
   });
 
@@ -76,7 +88,7 @@ describe("Modal component", () => {
         Content
       </Modal>,
     );
-    // Backdrop is the dialog's parent element
+
     fireEvent.click(screen.getByRole("dialog").parentElement!);
     expect(onClose).toHaveBeenCalledTimes(1);
   });
@@ -104,7 +116,11 @@ describe("Modal component", () => {
   });
 
   it("locks body scroll when open", () => {
-    render(<Modal open={true} onClose={() => {}}>Content</Modal>);
+    render(
+      <Modal open={true} onClose={() => {}}>
+        Content
+      </Modal>,
+    );
     expect(document.body.style.overflow).toBe("hidden");
   });
 

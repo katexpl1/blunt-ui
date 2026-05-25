@@ -1,52 +1,22 @@
 import styled, { css } from "styled-components";
-import { colors, spacing, fontSizes, radius } from "../../consts";
 import type { InputSizes, InputVariants } from "./Input.types";
-
-const sizeStyles = {
-  sm: css`
-    padding: ${spacing[1]} ${spacing[2]};
-    font-size: ${fontSizes.sm};
-  `,
-  md: css`
-    padding: ${spacing[2]} ${spacing[3]};
-    font-size: ${fontSizes.md};
-  `,
-  lg: css`
-    padding: ${spacing[3]} ${spacing[4]};
-    font-size: ${fontSizes.lg};
-  `,
-} satisfies Record<InputSizes, ReturnType<typeof css>>;
-
-const variantStyles = {
-  default: css`
-    border: 1px solid ${colors.neutral[400]};
-    background-color: ${colors.neutral[0]};
-  `,
-  outlined: css`
-    border: 2px solid ${colors.primary[500]};
-    background-color: ${colors.neutral[0]};
-  `,
-  filled: css`
-    border: 1px solid transparent;
-    background-color: ${colors.neutral[100]};
-  `,
-} satisfies Record<InputVariants, ReturnType<typeof css>>;
 
 export const Wrapper = styled.div<{ $fullWidth?: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: ${spacing[1]};
+  gap: ${({ theme }) => theme.spacing[1]};
   width: ${({ $fullWidth }) => ($fullWidth ? "100%" : "auto")};
 `;
 
 export const Label = styled.label`
-  font-size: ${fontSizes.sm};
-  font-weight: 500;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-weight: ${({ theme }) => (theme.brutalism ? "700" : "500")};
 `;
 
 export const HelperText = styled.span<{ $error?: boolean }>`
-  font-size: ${fontSizes.xs};
-  color: ${({ $error }) => ($error ? colors.error[500] : colors.neutral[500])};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  color: ${({ $error, theme }) =>
+    $error ? theme.colors.error[500] : theme.colors.neutral[500]};
 `;
 
 export const InputContainer = styled.div<{
@@ -56,17 +26,67 @@ export const InputContainer = styled.div<{
 }>`
   display: flex;
   align-items: center;
-  border-radius: ${radius.md};
+  border-radius: ${({ theme }) => theme.radius.md};
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
 
-  ${({ $size = "md" }) => sizeStyles[$size]}
-  ${({ $variant = "default" }) => variantStyles[$variant]}
-  ${({ $error }) => $error && css`border-color: ${colors.error[500]};`}
+  ${({ $size = "md", theme }) => {
+    const styles: Record<InputSizes, ReturnType<typeof css>> = {
+      sm: css`
+        padding: ${theme.spacing[1]} ${theme.spacing[2]};
+        font-size: ${theme.fontSizes.sm};
+      `,
+      md: css`
+        padding: ${theme.spacing[2]} ${theme.spacing[3]};
+        font-size: ${theme.fontSizes.md};
+      `,
+      lg: css`
+        padding: ${theme.spacing[3]} ${theme.spacing[4]};
+        font-size: ${theme.fontSizes.lg};
+      `,
+    };
+    return styles[$size];
+  }}
+
+  ${({ $variant = "default", theme }) => {
+    if (theme.brutalism) {
+      return css`
+        border: ${theme.brutalism.borderWidth} solid
+          ${theme.colors.neutral[900]};
+        background-color: ${theme.colors.neutral[0]};
+        box-shadow: 3px 3px 0 ${theme.colors.neutral[900]};
+      `;
+    }
+    const styles: Record<InputVariants, ReturnType<typeof css>> = {
+      default: css`
+        border: 1px solid ${theme.colors.neutral[400]};
+        background-color: ${theme.colors.neutral[0]};
+      `,
+      outlined: css`
+        border: 2px solid ${theme.colors.primary[500]};
+        background-color: ${theme.colors.neutral[0]};
+      `,
+      filled: css`
+        border: 1px solid transparent;
+        background-color: ${theme.colors.neutral[100]};
+      `,
+    };
+    return styles[$variant];
+  }}
+
+  ${({ $error, theme }) =>
+    $error &&
+    css`
+      border-color: ${theme.colors.error[500]};
+      ${theme.brutalism &&
+      css`
+        box-shadow: 3px 3px 0 ${theme.colors.error[500]};
+      `}
+    `}
 
   &:focus-within {
-    box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.25);
+    box-shadow: ${({ theme }) => theme.shadows.focusRing};
   }
 `;
 
@@ -86,13 +106,13 @@ export const StyledInput = styled.input`
 export const Slot = styled.div`
   display: inline-flex;
   align-items: center;
-  margin: 0 ${spacing[1]};
+  margin: 0 ${({ theme }) => theme.spacing[1]};
 `;
 
 export const SlotButton = styled.button`
   display: inline-flex;
   align-items: center;
-  margin: 0 ${spacing[1]};
+  margin: 0 ${({ theme }) => theme.spacing[1]};
   padding: 0;
   background: none;
   border: none;

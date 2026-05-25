@@ -1,5 +1,4 @@
 import { createGlobalStyle } from "styled-components";
-import { colors, fontSizes } from "../consts";
 
 export const GlobalStyles = createGlobalStyle`
   *, *::before, *::after {
@@ -9,11 +8,10 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   html, body {
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: ${fontSizes.md};
-    color: ${colors.neutral[900]};
-    background-color: ${colors.neutral[0]};
+    font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+    font-size: ${({ theme }) => theme.fontSizes.md};
+    color: ${({ theme }) => theme.colors.neutral[900]};
+    background-color: ${({ theme }) => theme.colors.neutral[0]};
   }
 
   button, input, select, textarea {

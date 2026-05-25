@@ -1,73 +1,158 @@
-# React + TypeScript + Vite
+# blunt-ui
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + styled-components. Thick borders, offset shadows, no fluff. 8 components, 2 hooks.
 
-Currently, two official plugins are available:
+**Live demo:** https://blunt-ui-storybook-9eh366ciy-katexpls-projects.vercel.app/
+**Storybook:** https://blunt-ui-b6ry.vercel.app/
+**npm:** https://www.npmjs.com/package/blunt-ui
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting started
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm install
+npm run storybook  # component explorer on port 6006
+npm run dev        # landing page with link to Storybook
+npm test
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Button
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+Variants: `primary`, `secondary`, `outline`. Sizes: `sm`, `md`, `lg`.
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```tsx
+<Button variant="primary" onClick={handleSave}>Save</Button>
+<Button variant="outline" isLoading={submitting}>Submit</Button>
 ```
+
+`isLoading` disables the button and shows "Loading...". The `as` prop swaps the element, handy for router links with button styles.
+
+## Input
+
+Label, helper text, error message, left/right icon slots, and an optional clear button.
+
+```tsx
+<Input label="Email" type="email" error="Enter a valid email" />
+<Input label="Search" clearable leftElement={<SearchIcon />} onClear={() => setValue("")} />
+```
+
+Pass a string to `error` to show a message, or `true` for just the red border.
+
+## Modal
+
+Opens in a portal on `document.body`. Traps focus, locks body scroll, and closes on Escape or backdrop click by default.
+
+Sizes: `sm`, `md`, `lg`, `fullscreen`.
+
+```tsx
+<Modal
+  open={isOpen}
+  onClose={() => setIsOpen(false)}
+  title="Delete item"
+  footer={
+    <>
+      <Button variant="outline" onClick={() => setIsOpen(false)}>
+        Cancel
+      </Button>
+      <Button variant="primary" onClick={handleDelete}>
+        Delete
+      </Button>
+    </>
+  }
+>
+  This can't be undone.
+</Modal>
+```
+
+## Toast
+
+Pops up in a portal, auto-dismisses after 4 seconds. Set `duration={0}` to keep it until the user closes it.
+
+Variants: `success`, `error`, `warning`, `info`. Positions: `bottom-right`, `bottom-left`, `top-right`, `top-left`.
+
+```tsx
+<Toast
+  open={open}
+  onClose={() => setOpen(false)}
+  message="Changes saved."
+  variant="success"
+/>
+```
+
+## Select
+
+Styled native select, works the same as Input for sizes, variants, and error handling. Pass `clearable` to add an X button.
+
+```tsx
+<Select
+  options={[{ value: "frontend", label: "frontend dev" }]}
+  placeholder="pick one"
+  value={value}
+  onChange={(e) => setValue(e.target.value)}
+  clearable
+  onClear={() => setValue("")}
+/>
+```
+
+## Form
+
+`Form` is just a flex column wrapper that handles `preventDefault`. `FormField` adds the label, error message, helper text, and wires up the `htmlFor` automatically.
+
+```tsx
+<Form onSubmit={handleSubmit}>
+  <FormField label="email" error={errors.email} required>
+    <Input
+      type="email"
+      value={email}
+      onChange={handleChange}
+      onBlur={handleBlur}
+      name="email"
+    />
+  </FormField>
+  <Button type="submit">submit</Button>
+</Form>
+```
+
+## useToast
+
+Add `ToastProvider` once at the top of your app, then use `useToast()` anywhere inside it.
+
+```tsx
+<ToastProvider>
+  <App />
+</ToastProvider>
+```
+
+```tsx
+const { toast } = useToast();
+
+toast.success("saved!");
+toast.error("something went wrong");
+```
+
+## useForm
+
+Handles values, validation, and errors so you don't have to wire it all up yourself. Errors only show after the user has touched a field or tried to submit.
+
+```tsx
+const { values, errors, handleChange, handleBlur, handleSubmit, reset } =
+  useForm({
+    initialValues: { email: "", password: "" },
+    validate: (v) => ({
+      email: !v.email.trim() ? "required" : undefined,
+      password: v.password.length < 8 ? "min 8 chars" : undefined,
+    }),
+    onSubmit: (values) => {
+      /* only called when everything is valid */
+    },
+    onError: () => {
+      toast.error("fix the errors first");
+    },
+  });
+```
+
+The `name` on each input needs to match the key in `initialValues`. Use `reset()` to clear everything back to the start.
+
+## Design tokens
+
+Colors, spacing, font sizes, and border radius live in `src/consts.ts`. All components pull from there, so changing a token updates everything at once.

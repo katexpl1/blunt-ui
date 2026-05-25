@@ -1,5 +1,4 @@
 import styled, { css, keyframes } from "styled-components";
-import { colors, radius, spacing, fontSizes } from "../../consts";
 import type { ModalSizes } from "./Modal.types";
 
 const fadeIn = keyframes`
@@ -23,31 +22,50 @@ const scaleOut = keyframes`
 `;
 
 export const Backdrop = styled.div<{ $closing: boolean }>`
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    animation: ${({ $closing }) => ($closing ? fadeOut : fadeIn)} 0.15s ease
-      forwards;
-  `;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: ${({ theme }) => theme.zIndex.modal};
+  animation: ${({ $closing }) => ($closing ? fadeOut : fadeIn)} 0.15s ease
+    forwards;
+`;
 
 export const Dialog = styled.div<{ $size: ModalSizes; $closing: boolean }>`
   position: relative;
-  background: ${colors.neutral[0]};
-  border-radius: ${radius.md};
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  background: ${({ theme }) => theme.colors.neutral[0]};
+  border-radius: ${({ theme }) => theme.radius.md};
+  box-shadow: ${({ theme }) =>
+    theme.brutalism
+      ? `${theme.brutalism.shadowOffset} ${theme.brutalism.shadowOffset} 0 ${theme.colors.neutral[900]}`
+      : "0 20px 60px rgba(0,0,0,0.3)"};
+  border: ${({ theme }) =>
+    theme.brutalism
+      ? `${theme.brutalism.borderWidth} solid ${theme.colors.neutral[900]}`
+      : "none"};
   display: flex;
   flex-direction: column;
   max-height: 90vh;
   animation: ${({ $closing }) => ($closing ? scaleOut : scaleIn)} 0.15s ease
     forwards;
 
-  ${({ $size }) => $size === "sm" && css`width: min(400px, 90vw);`}
-  ${({ $size }) => $size === "md" && css`width: min(560px, 90vw);`}
-  ${({ $size }) => $size === "lg" && css`width: min(720px, 90vw);`}
+  ${({ $size }) =>
+    $size === "sm" &&
+    css`
+      width: min(400px, 90vw);
+    `}
+  ${({ $size }) =>
+    $size === "md" &&
+    css`
+      width: min(560px, 90vw);
+    `}
+  ${({ $size }) =>
+    $size === "lg" &&
+    css`
+      width: min(720px, 90vw);
+    `}
   ${({ $size }) =>
     $size === "fullscreen" &&
     css`
@@ -61,15 +79,15 @@ export const Dialog = styled.div<{ $size: ModalSizes; $closing: boolean }>`
 export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
-  gap: ${spacing[2]};
-  padding: ${spacing[4]} ${spacing[4]};
-  border-bottom: 1px solid ${colors.neutral[200]};
+  gap: ${({ theme }) => theme.spacing[2]};
+  padding: ${({ theme }) => theme.spacing[4]};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.neutral[200]};
   flex-shrink: 0;
 `;
 
 export const ModalTitle = styled.h2`
   flex: 1;
-  font-size: ${fontSizes.lg};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
   font-weight: 600;
   margin: 0;
 `;
@@ -85,24 +103,24 @@ export const CloseButton = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  border-radius: ${radius.md};
+  border-radius: ${({ theme }) => theme.radius.md};
   font-size: 20px;
   line-height: 1;
-  color: ${colors.neutral[500]};
+  color: ${({ theme }) => theme.colors.neutral[500]};
 
   &:hover {
-    background-color: ${colors.neutral[100]};
-    color: ${colors.neutral[900]};
+    background-color: ${({ theme }) => theme.colors.neutral[100]};
+    color: ${({ theme }) => theme.colors.neutral[900]};
   }
 
   &:focus-visible {
-    outline: 2px solid ${colors.primary[500]};
+    outline: 2px solid ${({ theme }) => theme.colors.primary[500]};
     outline-offset: 2px;
   }
 `;
 
 export const ModalBody = styled.div`
-  padding: ${spacing[4]};
+  padding: ${({ theme }) => theme.spacing[4]};
   overflow-y: auto;
   flex: 1;
 `;
@@ -111,8 +129,8 @@ export const ModalFooter = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: ${spacing[2]};
-  padding: ${spacing[4]};
-  border-top: 1px solid ${colors.neutral[200]};
+  gap: ${({ theme }) => theme.spacing[2]};
+  padding: ${({ theme }) => theme.spacing[4]};
+  border-top: 1px solid ${({ theme }) => theme.colors.neutral[200]};
   flex-shrink: 0;
 `;

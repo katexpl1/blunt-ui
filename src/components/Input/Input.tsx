@@ -43,12 +43,18 @@ export function Input({
   const hasHint = !!(helperText || error);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!isControlled) setInternalValue(e.target.value);
+    if (!isControlled) {
+      setInternalValue(e.target.value);
+    }
+
     onChange?.(e);
   };
 
   const handleClear = () => {
-    if (!isControlled) setInternalValue("");
+    if (!isControlled) {
+      setInternalValue("");
+    }
+
     onClear?.();
   };
 
@@ -71,7 +77,11 @@ export function Input({
         />
 
         {clearable && currentValue && (
-          <SlotButton type="button" onClick={handleClear} aria-label="Clear input">
+          <SlotButton
+            type="button"
+            onClick={handleClear}
+            aria-label="Clear input"
+          >
             ✕
           </SlotButton>
         )}

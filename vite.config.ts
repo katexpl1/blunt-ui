@@ -1,6 +1,7 @@
 /// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import dts from "vite-plugin-dts";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
@@ -12,7 +13,10 @@ const dirname =
     : path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    dts({ tsconfigPath: "./tsconfig.build.json", rollupTypes: true }),
+  ],
   build: {
     lib: {
       entry: path.resolve(dirname, "src/index.ts"),
@@ -20,7 +24,12 @@ export default defineConfig({
       fileName: (format) => `index.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
-      external: ["react", "react/jsx-runtime", "react-dom", "styled-components"],
+      external: [
+        "react",
+        "react/jsx-runtime",
+        "react-dom",
+        "styled-components",
+      ],
       output: {
         globals: {
           react: "React",

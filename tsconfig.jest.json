@@ -4,6 +4,7 @@
     "verbatimModuleSyntax": false,
     "module": "CommonJS",
     "esModuleInterop": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["jest", "@testing-library/jest-dom"]
   }
 }

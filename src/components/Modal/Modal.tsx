@@ -120,7 +120,7 @@ export function Modal({
       document.removeEventListener("keydown", handleKeyDown);
       previousFocus?.focus();
     };
-  }, [open, closeOnEscape, onClose]);
+  }, [open, closeOnEscape, onClose, isVisible]);
 
   if (!isVisible) {
     return null;

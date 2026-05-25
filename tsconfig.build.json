@@ -6,6 +6,13 @@
     "declaration": true,
     "declarationDir": "./dist"
   },
-  "include": ["src/index.ts", "src/components", "src/consts.ts", "src/styles"],
+  "include": [
+    "src/index.ts",
+    "src/components",
+    "src/consts.ts",
+    "src/styles",
+    "src/themes",
+    "src/styled.d.ts"
+  ],
   "exclude": ["src/**/*.styles.ts"]
 }

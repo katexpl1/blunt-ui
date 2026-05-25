@@ -12,8 +12,10 @@ export type InputTypes =
 export type InputSizes = "sm" | "md" | "lg";
 export type InputVariants = "default" | "outlined" | "filled";
 
-export interface InputProps
-  extends Omit<ComponentPropsWithRef<"input">, "size" | "type"> {
+export interface InputProps extends Omit<
+  ComponentPropsWithRef<"input">,
+  "size" | "type"
+> {
   type?: InputTypes;
   size?: InputSizes;
   variant?: InputVariants;
