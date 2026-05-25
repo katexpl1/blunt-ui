@@ -2,8 +2,10 @@
 
 React + TypeScript + styled-components. Thick borders, offset shadows, no fluff. 8 components, 2 hooks.
 
-**Live demo:** https://blunt-ui-storybook-9eh366ciy-katexpls-projects.vercel.app/
-**Storybook:** https://blunt-ui-b6ry.vercel.app/
+**Live demo:** https://blunt-ui.vercel.app/
+
+**Storybook:** https://blunt-ui-storybook.vercel.app
+
 **npm:** https://www.npmjs.com/package/blunt-ui
 
 ## Getting started
