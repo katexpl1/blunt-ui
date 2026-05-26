@@ -26,7 +26,7 @@ export const CardHeader = styled.button<{
 }>`
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: ${({ theme }) => theme.spacing[3]};
   padding: ${({ theme }) => theme.spacing[4]};
   background: ${({ theme }) =>
@@ -62,7 +62,20 @@ export const Subtitle = styled.span`
   display: block;
   font-size: ${({ theme }) => theme.fontSizes.sm};
   color: ${({ theme }) => theme.colors.neutral[500]};
+`;
+
+export const SubtitleActionsRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   margin-top: ${({ theme }) => theme.spacing[1]};
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${({ theme }) => theme.spacing[2]};
+  }
 `;
 
 export const HeaderActions = styled.div`

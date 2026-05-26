@@ -71,11 +71,7 @@ Sizes: `sm`, `md`, `lg`, `fullscreen`.
 A card with a clickable header that shows/hides its content. Supports controlled and uncontrolled modes, an optional subtitle, a slot for header actions, and an `accentColor` prop to tint the border and chevron.
 
 ```tsx
-<CollapsibleCard
-  title="blunt-ui"
-  subtitle="Subtitle"
-  defaultOpen
->
+<CollapsibleCard title="blunt-ui" subtitle="Subtitle" defaultOpen>
   React component library in neo-brutalism style.
 </CollapsibleCard>
 ```

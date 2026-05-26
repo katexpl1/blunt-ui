@@ -19,6 +19,10 @@ export const StyledBadge = styled.span<{
   letter-spacing: 0.04em;
   cursor: default;
   border-radius: ${({ theme }) => theme.radius.md};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20ch;
 
   ${({ $size, theme }) => {
     const sizes: Record<BadgeSize, ReturnType<typeof css>> = {

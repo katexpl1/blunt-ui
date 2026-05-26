@@ -10,6 +10,7 @@ import {
   HeaderActions,
   HeaderText,
   Subtitle,
+  SubtitleActionsRow,
   Title,
 } from "./CollapsibleCard.styles";
 import type { CollapsibleCardProps } from "./CollapsibleCard.types";
@@ -50,14 +51,17 @@ export function CollapsibleCard({
       >
         <HeaderText>
           <Title>{title}</Title>
-          {subtitle && <Subtitle>{subtitle}</Subtitle>}
+          {(subtitle || headerActions) && (
+            <SubtitleActionsRow>
+              {subtitle && <Subtitle>{subtitle}</Subtitle>}
+              {headerActions && (
+                <HeaderActions onClick={(e) => e.stopPropagation()}>
+                  {headerActions}
+                </HeaderActions>
+              )}
+            </SubtitleActionsRow>
+          )}
         </HeaderText>
-
-        {headerActions && (
-          <HeaderActions onClick={(e) => e.stopPropagation()}>
-            {headerActions}
-          </HeaderActions>
-        )}
 
         <ChevronWrapper
           $open={isOpen}
