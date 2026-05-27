@@ -147,6 +147,48 @@ export const KeyboardNavigation: Story = {
   ),
 };
 
+export const WithSelectColumn: Story = {
+  render: (args) => (
+    <DataTable
+      {...args}
+      columns={[
+        { key: "task", header: "Task", editable: true },
+        {
+          key: "priority",
+          header: "Priority",
+          editable: true,
+          options: [
+            { value: "low", label: "Low" },
+            { value: "medium", label: "Medium" },
+            { value: "high", label: "High" },
+          ],
+        },
+        {
+          key: "status",
+          header: "Status",
+          editable: true,
+          options: [
+            { value: "todo", label: "To do" },
+            { value: "in_progress", label: "In progress" },
+            { value: "done", label: "Done" },
+          ],
+        },
+      ]}
+      defaultData={[
+        {
+          task: "Design system audit",
+          priority: "high",
+          status: "in_progress",
+        },
+        { task: "API documentation", priority: "medium", status: "todo" },
+        { task: "Unit test coverage", priority: "low", status: "done" },
+      ]}
+      deletable
+    />
+  ),
+  args: { size: "md" },
+};
+
 export const StartsEmpty: Story = {
   render: () => (
     <DataTable

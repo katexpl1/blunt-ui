@@ -7,3 +7,5 @@ export type {
   SortDirection,
   TableChangeState,
 } from "./Table.types";
+export { useTable } from "./useTable";
+export type { UseTableOptions, UseTableReturn } from "./useTable";

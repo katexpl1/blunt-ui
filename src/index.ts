@@ -38,7 +38,7 @@ export { useToast, ToastProvider } from "./hooks";
 export type { ToastOptions, ToastFn, ToastContextValue } from "./hooks";
 export { useForm } from "./hooks";
 export type { UseFormOptions, UseFormReturn } from "./hooks";
-export { Table } from "./components/Table";
+export { Table, useTable } from "./components/Table";
 export type {
   TableProps,
   TableColumn,
@@ -46,9 +46,15 @@ export type {
   SortState,
   SortDirection,
   TableChangeState,
+  UseTableOptions,
+  UseTableReturn,
 } from "./components/Table";
 export { DataTable } from "./components/DataTable";
-export type { DataTableProps, DataTableColumn } from "./components/DataTable";
+export type {
+  DataTableProps,
+  DataTableColumn,
+  DataTableSelectOption,
+} from "./components/DataTable";
 export { ThemeProvider } from "./components/ThemeProvider";
 export { defaultTheme, neoBrutalTheme, createNeoBrutalTheme } from "./themes";
 export type { Theme } from "./themes";

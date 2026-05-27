@@ -31,7 +31,7 @@ export const EditableTd = styled(Td)<{ $editable?: boolean }>`
     `}
 `;
 
-export const CellInput = styled.input<{ $size: TableSizes }>`
+const cellBase = css<{ $size: TableSizes }>`
   display: block;
   width: 100%;
   min-width: 0;
@@ -57,6 +57,15 @@ export const CellInput = styled.input<{ $size: TableSizes }>`
             box-shadow: ${theme.shadows.focusRing};
           }
         `}
+`;
+
+export const CellInput = styled.input<{ $size: TableSizes }>`
+  ${cellBase}
+`;
+
+export const CellSelect = styled.select<{ $size: TableSizes }>`
+  ${cellBase}
+  cursor: pointer;
 `;
 
 export const ActionsTh = styled(Th)`

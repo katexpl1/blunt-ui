@@ -14,7 +14,7 @@ function nextSort(active: SortState | null, key: string): SortState | null {
 
 interface UseTableSortProps<T> {
   data: T[];
-  sort?: SortState;
+  sort?: SortState | null;
   defaultSort?: SortState;
   onSortChange?: (sort: SortState | null) => void;
 }

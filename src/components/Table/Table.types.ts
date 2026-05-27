@@ -34,7 +34,7 @@ export interface TableProps<
   caption?: string;
   emptyMessage?: string;
   loading?: boolean;
-  sort?: SortState;
+  sort?: SortState | null;
   defaultSort?: SortState;
   onSortChange?: (sort: SortState | null) => void;
   pageSize?: number;

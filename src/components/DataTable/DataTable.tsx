@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { flushSync } from "react-dom";
 import type { KeyboardEvent } from "react";
 import type { DataTableProps, DataTableColumn } from "./DataTable.types";
 import {
@@ -10,6 +11,7 @@ import {
   Th,
   EditableTd,
   CellInput,
+  CellSelect,
   ActionsTh,
   ActionsTd,
   DeleteButton,
@@ -54,13 +56,22 @@ export function DataTable<
   } | null>(null);
   const [draftValue, setDraftValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const selectRef = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
-    if (editingCell) {
+    if (!editingCell) {
+      return;
+    }
+
+    const col = columns.find((c) => c.key === editingCell.colKey);
+
+    if (col?.options) {
+      selectRef.current?.focus();
+    } else {
       inputRef.current?.focus();
       inputRef.current?.select();
     }
-  }, [editingCell]);
+  }, [editingCell, columns]);
 
   const updateData = useCallback(
     (newData: T[]) => {
@@ -121,7 +132,7 @@ export function DataTable<
     setDraftValue("");
   };
 
-  const handleTabNavigation = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleTabNavigation = (e: KeyboardEvent<HTMLElement>) => {
     if (!editingCell) {
       return;
     }
@@ -176,8 +187,16 @@ export function DataTable<
     setDraftValue("");
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === "Enter") {
+      const col = columns.find((c) => c.key === editingCell?.colKey);
+
+      if (col?.options) {
+        selectRef.current?.showPicker();
+
+        return;
+      }
+
       commitEdit();
 
       return;
@@ -239,6 +258,15 @@ export function DataTable<
                 const value = row[col.key as keyof T];
                 const editable = isColEditable(col, row, rowIndex);
 
+                const displayValue = col.options
+                  ? (col.options.find((o) => o.value === String(value ?? ""))
+                      ?.label ??
+                      String(value ?? "")) ||
+                    " "
+                  : col.render
+                    ? col.render(value, row, rowIndex)
+                    : String(value ?? "") || " ";
+
                 return (
                   <EditableTd
                     key={col.key}
@@ -247,11 +275,36 @@ export function DataTable<
                     $editable={editable && !isEditing}
                     onClick={
                       editable && !isEditing
-                        ? () => startEditing(rowIndex, col.key, value)
+                        ? () => {
+                            if (col.options) {
+                              flushSync(() =>
+                                startEditing(rowIndex, col.key, value),
+                              );
+                              selectRef.current?.showPicker();
+                            } else {
+                              startEditing(rowIndex, col.key, value);
+                            }
+                          }
                         : undefined
                     }
                   >
-                    {isEditing ? (
+                    {isEditing && col.options ? (
+                      <CellSelect
+                        ref={selectRef}
+                        $size={size}
+                        value={draftValue}
+                        onChange={(e) => setDraftValue(e.target.value)}
+                        onBlur={commitEdit}
+                        onKeyDown={handleKeyDown}
+                        aria-label={`Edit ${col.header}`}
+                      >
+                        {col.options.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </CellSelect>
+                    ) : isEditing ? (
                       <CellInput
                         ref={inputRef}
                         $size={size}
@@ -261,10 +314,8 @@ export function DataTable<
                         onKeyDown={handleKeyDown}
                         aria-label={`Edit ${col.header}`}
                       />
-                    ) : col.render ? (
-                      col.render(value, row, rowIndex)
                     ) : (
-                      String(value ?? "") || " "
+                      displayValue
                     )}
                   </EditableTd>
                 );

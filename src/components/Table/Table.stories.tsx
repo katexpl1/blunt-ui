@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { Table } from "./Table";
+import { useTable } from "./useTable";
 import { Badge } from "../Badge";
 import type { BadgeVariants } from "../Badge";
 
@@ -58,7 +59,6 @@ const largeData = Array.from({ length: 50 }, (_, i) => ({
 }));
 
 const twentyRows = largeData.slice(0, 20);
-const thirtyRows = largeData.slice(0, 30);
 
 const columns = [
   { key: "id" as const, header: "ID", width: "60px" },
@@ -73,14 +73,6 @@ const sortableColumns = [
   { key: "product" as const, header: "Product", sortable: true },
   { key: "category" as const, header: "Category", sortable: true },
   { key: "price" as const, header: "Price", sortable: true },
-  { key: "status" as const, header: "Status" },
-];
-
-const widthColumns = [
-  { key: "id" as const, header: "ID", width: "60px" },
-  { key: "product" as const, header: "Product", width: "240px" },
-  { key: "category" as const, header: "Category", width: "120px" },
-  { key: "price" as const, header: "Price", width: "80px" },
   { key: "status" as const, header: "Status" },
 ];
 
@@ -142,33 +134,8 @@ export const Default: Story = {
   args: { columns, data: sampleData, size: "md" },
 };
 
-export const Striped: Story = {
-  args: { columns, data: sampleData, striped: true },
-};
-
-export const Bordered: Story = {
-  args: { columns, data: sampleData, bordered: true },
-};
-
 export const StripedAndBordered: Story = {
   args: { columns, data: sampleData, striped: true, bordered: true },
-};
-
-export const Small: Story = {
-  args: { columns, data: sampleData, size: "sm" },
-};
-
-export const Large: Story = {
-  args: { columns, data: sampleData, size: "lg" },
-};
-
-export const WithCaption: Story = {
-  args: {
-    columns,
-    data: sampleData,
-    caption: "Product inventory",
-    striped: true,
-  },
 };
 
 export const WithCustomRender: Story = {
@@ -207,11 +174,49 @@ export const SortableControlled: Story = {
           {...args}
           columns={sortableColumns}
           data={sorted}
-          sort={sort ?? undefined}
+          sort={sort}
           onSortChange={setSort}
         />
         <pre style={{ fontSize: 12, margin: 0 }}>
           {JSON.stringify(sort, null, 2)}
+        </pre>
+      </div>
+    );
+  },
+  args: { striped: true },
+};
+
+export const WithUseTable: Story = {
+  render: (args) => {
+    const { sort, page, onSortChange, onPageChange } = useTable({
+      defaultPage: 1,
+    });
+
+    const sorted = sort
+      ? [...largeData].sort((a, b) => {
+          const av = a[sort.key as keyof typeof a];
+          const bv = b[sort.key as keyof typeof b];
+          const cmp = av < bv ? -1 : av > bv ? 1 : 0;
+
+          return sort.direction === "asc" ? cmp : -cmp;
+        })
+      : largeData;
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <Table
+          {...args}
+          columns={sortableColumns}
+          data={sorted}
+          sort={sort}
+          onSortChange={onSortChange}
+          page={page}
+          onPageChange={onPageChange}
+          pageSize={8}
+          totalRows={largeData.length}
+        />
+        <pre style={{ fontSize: 12, margin: 0 }}>
+          {JSON.stringify({ sort, page }, null, 2)}
         </pre>
       </div>
     );
@@ -232,13 +237,6 @@ export const Paginated: Story = {
   args: { striped: true, pageSize: 8 },
 };
 
-export const PaginatedSortable: Story = {
-  render: (args) => (
-    <Table {...args} columns={sortableColumns} data={thirtyRows} />
-  ),
-  args: { striped: true, pageSize: 6 },
-};
-
 export const StickyHeader: Story = {
   render: (args) => (
     <Table
@@ -249,31 +247,6 @@ export const StickyHeader: Story = {
     />
   ),
   args: { stickyHeader: true, striped: true },
-};
-
-export const ColumnWidths: Story = {
-  render: (args) => (
-    <Table {...args} columns={widthColumns} data={sampleData} />
-  ),
-  args: { bordered: true },
-};
-
-export const CustomBorderColor: Story = {
-  args: { columns, data: sampleData, borderColor: "#6366f1" },
-};
-
-export const CustomHeaderColor: Story = {
-  args: { columns, data: sampleData, headerColor: "#6366f1" },
-};
-
-export const CustomRowColors: Story = {
-  args: {
-    columns,
-    data: sampleData,
-    striped: true,
-    rowColor: "#fefce8",
-    stripeColor: "#fef08a",
-  },
 };
 
 export const FullyCustomized: Story = {

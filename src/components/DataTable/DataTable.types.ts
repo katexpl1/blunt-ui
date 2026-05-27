@@ -3,11 +3,17 @@ import type { TableSizes } from "../Table/Table.types";
 
 export type { TableSizes };
 
+export interface DataTableSelectOption {
+  value: string;
+  label: string;
+}
+
 export interface DataTableColumn<T = Record<string, unknown>> {
   key: keyof T & string;
   header: string;
   width?: string;
   editable?: boolean | ((row: T, rowIndex: number) => boolean);
+  options?: DataTableSelectOption[];
   render?: (value: unknown, row: T, rowIndex: number) => ReactNode;
 }
 
