@@ -48,7 +48,9 @@ describe("CollapsibleCard component", () => {
 
   it("toggles open state on header click (uncontrolled)", () => {
     renderWithTheme(<CollapsibleCard title="My card">Content</CollapsibleCard>);
+
     const header = screen.getByRole("button");
+
     expect(header).toHaveAttribute("aria-expanded", "false");
     fireEvent.click(header);
     expect(header).toHaveAttribute("aria-expanded", "true");
@@ -67,6 +69,7 @@ describe("CollapsibleCard component", () => {
 
   it("calls onToggle with new open state", () => {
     const onToggle = jest.fn();
+
     renderWithTheme(
       <CollapsibleCard title="My card" onToggle={onToggle}>
         Content
@@ -82,6 +85,7 @@ describe("CollapsibleCard component", () => {
         Content
       </CollapsibleCard>,
     );
+
     expect(screen.getByRole("button")).toHaveAttribute(
       "aria-expanded",
       "false",
@@ -98,6 +102,7 @@ describe("CollapsibleCard component", () => {
 
   it("does not change state when controlled and header is clicked", () => {
     const onToggle = jest.fn();
+
     renderWithTheme(
       <CollapsibleCard title="My card" open={false} onToggle={onToggle}>
         Content
@@ -113,6 +118,7 @@ describe("CollapsibleCard component", () => {
 
   it("header actions click does not toggle the card", () => {
     const onToggle = jest.fn();
+
     renderWithTheme(
       <CollapsibleCard
         title="My card"
@@ -128,10 +134,14 @@ describe("CollapsibleCard component", () => {
 
   it("header button has aria-controls linking to content region", () => {
     renderWithTheme(<CollapsibleCard title="My card">Content</CollapsibleCard>);
+
     const header = screen.getByRole("button");
     const contentId = header.getAttribute("aria-controls");
+
     expect(contentId).toBeTruthy();
+
     const region = document.getElementById(contentId!);
+
     expect(region).toBeInTheDocument();
   });
 });

@@ -58,8 +58,10 @@ export const StyledButton = styled.button<{
           theme.colors.neutral[900],
         ),
       };
+
       return styles[$variant];
     }
+
     const styles: Record<ButtonVariants, ReturnType<typeof css>> = {
       primary: css`
         background-color: ${theme.colors.primary[500]};
@@ -86,6 +88,7 @@ export const StyledButton = styled.button<{
         }
       `,
     };
+
     return styles[$variant];
   }}
 
@@ -104,6 +107,7 @@ export const StyledButton = styled.button<{
         font-size: ${theme.fontSizes.lg};
       `,
     };
+
     return styles[$size];
   }}
 `;

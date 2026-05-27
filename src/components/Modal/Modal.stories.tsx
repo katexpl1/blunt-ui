@@ -22,6 +22,7 @@ type Story = StoryObj<typeof Modal>;
 export const Default: Story = {
   render: (args) => {
     const [open, setOpen] = useState(false);
+
     return (
       <>
         <Button onClick={() => setOpen(true)}>Open modal</Button>
@@ -40,6 +41,7 @@ export const Default: Story = {
 export const WithFooter: Story = {
   render: (args) => {
     const [open, setOpen] = useState(false);
+
     return (
       <>
         <Button onClick={() => setOpen(true)}>Delete item</Button>
@@ -71,6 +73,7 @@ export const Sizes: Story = {
   render: () => {
     const sizes: ModalSizes[] = ["sm", "md", "lg"];
     const [openSize, setOpenSize] = useState<ModalSizes | null>(null);
+
     return (
       <>
         <div style={{ display: "flex", gap: "8px" }}>
@@ -96,6 +99,7 @@ export const Sizes: Story = {
 export const NoBackdropClose: Story = {
   render: (args) => {
     const [open, setOpen] = useState(false);
+
     return (
       <>
         <Button onClick={() => setOpen(true)}>Open modal</Button>
@@ -115,6 +119,7 @@ export const NoBackdropClose: Story = {
 export const NoTitle: Story = {
   render: (args) => {
     const [open, setOpen] = useState(false);
+
     return (
       <>
         <Button onClick={() => setOpen(true)}>Open modal</Button>

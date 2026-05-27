@@ -27,17 +27,18 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toast = useMemo<ToastFn>(() => {
-    const fn = (options: ToastOptions) => show(options);
     type ShortOpts = Omit<ToastOptions, "message" | "variant">;
-    fn.success = (message: string, opts?: ShortOpts) =>
-      show({ ...opts, message, variant: "success" });
-    fn.error = (message: string, opts?: ShortOpts) =>
-      show({ ...opts, message, variant: "error" });
-    fn.warning = (message: string, opts?: ShortOpts) =>
-      show({ ...opts, message, variant: "warning" });
-    fn.info = (message: string, opts?: ShortOpts) =>
-      show({ ...opts, message, variant: "info" });
-    return fn as ToastFn;
+
+    return Object.assign((options: ToastOptions) => show(options), {
+      success: (message: string, opts?: ShortOpts) =>
+        show({ ...opts, message, variant: "success" }),
+      error: (message: string, opts?: ShortOpts) =>
+        show({ ...opts, message, variant: "error" }),
+      warning: (message: string, opts?: ShortOpts) =>
+        show({ ...opts, message, variant: "warning" }),
+      info: (message: string, opts?: ShortOpts) =>
+        show({ ...opts, message, variant: "info" }),
+    }) as ToastFn;
   }, [show]);
 
   return (
@@ -58,10 +59,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useToast(): ToastContextValue {
   const ctx = useContext(ToastContext);
+
   if (!ctx) {
     throw new Error("useToast must be used within a ToastProvider");
   }
+
   return ctx;
 }

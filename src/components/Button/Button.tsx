@@ -14,6 +14,7 @@ export function Button<T extends ElementType = "button">({
   ...props
 }: ButtonProps<T>) {
   const element = (as ?? (href ? "a" : "button")) as ElementType;
+
   return (
     <StyledButton
       ref={ref}

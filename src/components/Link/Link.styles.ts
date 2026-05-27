@@ -27,6 +27,7 @@ export const StyledLink = styled.a<{ $variant: LinkVariants }>`
         }
       `,
     };
+
     return styles[$variant];
   }}
 `;

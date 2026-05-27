@@ -33,6 +33,7 @@ export function CollapsibleCard({
 
   const handleToggle = () => {
     const next = !isOpen;
+
     if (!isControlled) {
       setInternalOpen(next);
     }

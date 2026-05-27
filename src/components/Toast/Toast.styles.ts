@@ -62,6 +62,7 @@ export const ToastWrapper = styled.div<{
         left: ${theme.spacing[6]};
       `,
     };
+
     return styles[$position];
   }}
 `;
@@ -94,6 +95,7 @@ export const StyledToast = styled(ToastWrapper)<{ $variant: ToastVariants }>`
         ),
         info: brutalToast(theme, theme.colors.info[50], theme.colors.info[500]),
       };
+
       return variants[$variant];
     }
 
@@ -119,6 +121,7 @@ export const StyledToast = styled(ToastWrapper)<{ $variant: ToastVariants }>`
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
       `,
     };
+
     return variants[$variant];
   }}
 `;

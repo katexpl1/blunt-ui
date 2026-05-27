@@ -21,7 +21,6 @@ export const FieldLabel = styled.label`
 export const Required = styled.span`
   color: ${({ theme }) => theme.colors.error[500]};
   margin-left: 2px;
-  aria-hidden: true;
 `;
 
 export const HelperText = styled.span<{ $error?: boolean }>`

@@ -7,6 +7,7 @@ function contrastColor(hex: string): string {
   const toLinear = (c: number) =>
     c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
   const L = 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+
   return L > 0.179 ? "#111111" : "#ffffff";
 }
 

@@ -11,6 +11,7 @@ describe("useToast", () => {
     const consoleSpy = jest
       .spyOn(console, "error")
       .mockImplementation(() => {});
+
     expect(() => renderHook(() => useToast())).toThrow(
       "useToast must be used within a ToastProvider",
     );
@@ -19,6 +20,7 @@ describe("useToast", () => {
 
   it("toast() shows a toast with the given message", () => {
     const { result } = renderHook(() => useToast(), { wrapper });
+
     act(() => {
       result.current.toast({ message: "hello", variant: "info" });
     });
@@ -27,6 +29,7 @@ describe("useToast", () => {
 
   it("toast.success() shows a success toast", () => {
     const { result } = renderHook(() => useToast(), { wrapper });
+
     act(() => {
       result.current.toast.success("it worked");
     });
@@ -35,6 +38,7 @@ describe("useToast", () => {
 
   it("toast.error() shows an error toast", () => {
     const { result } = renderHook(() => useToast(), { wrapper });
+
     act(() => {
       result.current.toast.error("something broke");
     });
@@ -43,6 +47,7 @@ describe("useToast", () => {
 
   it("calling toast() again replaces the current toast", () => {
     const { result } = renderHook(() => useToast(), { wrapper });
+
     act(() => {
       result.current.toast({ message: "first" });
     });

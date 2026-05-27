@@ -21,11 +21,15 @@ export function Toast({
       setIsClosing(false);
     } else if (isVisible) {
       setIsClosing(true);
+
       const t = setTimeout(() => {
         setIsVisible(false);
         setIsClosing(false);
       }, 200);
-      return () => clearTimeout(t);
+
+      return () => {
+        clearTimeout(t);
+      };
     }
   }, [open, isVisible]);
 
@@ -35,7 +39,10 @@ export function Toast({
     }
 
     const t = setTimeout(onClose, duration);
-    return () => clearTimeout(t);
+
+    return () => {
+      clearTimeout(t);
+    };
   }, [open, duration, onClose]);
 
   if (!isVisible) {

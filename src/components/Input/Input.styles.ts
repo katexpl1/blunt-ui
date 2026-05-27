@@ -46,6 +46,7 @@ export const InputContainer = styled.div<{
         font-size: ${theme.fontSizes.lg};
       `,
     };
+
     return styles[$size];
   }}
 
@@ -58,6 +59,7 @@ export const InputContainer = styled.div<{
         box-shadow: 3px 3px 0 ${theme.colors.neutral[900]};
       `;
     }
+
     const styles: Record<InputVariants, ReturnType<typeof css>> = {
       default: css`
         border: 1px solid ${theme.colors.neutral[400]};
@@ -72,6 +74,7 @@ export const InputContainer = styled.div<{
         background-color: ${theme.colors.neutral[100]};
       `,
     };
+
     return styles[$variant];
   }}
 

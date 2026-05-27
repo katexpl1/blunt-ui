@@ -18,13 +18,16 @@ describe("Select", () => {
 
   it("renders placeholder as first disabled option", () => {
     render(<Select options={options} placeholder="pick one" />);
+
     const placeholder = screen.getByText("pick one");
+
     expect(placeholder).toBeInTheDocument();
     expect(placeholder).toBeDisabled();
   });
 
   it("calls onChange when selection changes", () => {
     const onChange = jest.fn();
+
     render(<Select options={options} onChange={onChange} />);
     fireEvent.change(screen.getByRole("combobox"), { target: { value: "b" } });
     expect(onChange).toHaveBeenCalledTimes(1);
@@ -66,6 +69,7 @@ describe("Select", () => {
 
   it("calls onClear when clear button is clicked", () => {
     const onClear = jest.fn();
+
     render(
       <Select
         options={options}

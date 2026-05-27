@@ -11,11 +11,13 @@ const validate = (v: typeof initialValues) => ({
 describe("useForm", () => {
   it("returns initial values", () => {
     const { result } = renderHook(() => useForm({ initialValues }));
+
     expect(result.current.values).toEqual(initialValues);
   });
 
   it("handleChange updates the correct field", () => {
     const { result } = renderHook(() => useForm({ initialValues }));
+
     act(() => {
       result.current.handleChange({
         target: { name: "email", value: "test@test.com" },
@@ -26,6 +28,7 @@ describe("useForm", () => {
 
   it("handleBlur marks field as touched", () => {
     const { result } = renderHook(() => useForm({ initialValues }));
+
     act(() => {
       result.current.handleBlur({
         target: { name: "email" },
@@ -36,6 +39,7 @@ describe("useForm", () => {
 
   it("errors only shown for touched fields", () => {
     const { result } = renderHook(() => useForm({ initialValues, validate }));
+
     expect(result.current.errors.email).toBeUndefined();
 
     act(() => {
@@ -48,6 +52,7 @@ describe("useForm", () => {
 
   it("handleSubmit marks all fields as touched", () => {
     const { result } = renderHook(() => useForm({ initialValues, validate }));
+
     act(() => {
       result.current.handleSubmit();
     });
@@ -60,6 +65,7 @@ describe("useForm", () => {
     const { result } = renderHook(() =>
       useForm({ initialValues, validate, onSubmit }),
     );
+
     act(() => {
       result.current.handleSubmit();
     });
@@ -71,6 +77,7 @@ describe("useForm", () => {
     const { result } = renderHook(() =>
       useForm({ initialValues, validate, onError }),
     );
+
     act(() => {
       result.current.handleSubmit();
     });
@@ -84,6 +91,7 @@ describe("useForm", () => {
     const { result } = renderHook(() =>
       useForm({ initialValues, validate, onSubmit }),
     );
+
     act(() => {
       result.current.setFieldValue("email", "a@b.com");
       result.current.setFieldValue("password", "12345678");
@@ -99,6 +107,7 @@ describe("useForm", () => {
 
   it("reset restores initial state", () => {
     const { result } = renderHook(() => useForm({ initialValues }));
+
     act(() => {
       result.current.handleChange({
         target: { name: "email", value: "test@test.com" },
@@ -114,6 +123,7 @@ describe("useForm", () => {
 
   it("setFieldValue updates a specific field", () => {
     const { result } = renderHook(() => useForm({ initialValues }));
+
     act(() => {
       result.current.setFieldValue("email", "hello@test.com");
     });

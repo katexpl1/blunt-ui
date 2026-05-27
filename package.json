@@ -18,7 +18,8 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "tsc": "tsc -p tsconfig.app.json --noEmit"
   },
   "dependencies": {
     "lucide-react": "^1.16.0"

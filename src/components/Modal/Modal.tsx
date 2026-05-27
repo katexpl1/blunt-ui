@@ -51,6 +51,7 @@ export function Modal({
       setIsClosing(false);
     } else if (isVisible) {
       setIsClosing(true);
+
       const t = setTimeout(() => {
         setIsVisible(false);
         setIsClosing(false);
@@ -64,8 +65,11 @@ export function Modal({
     if (!open) {
       return;
     }
+
     const original = document.body.style.overflow;
+
     document.body.style.overflow = "hidden";
+
     return () => {
       document.body.style.overflow = original;
     };
@@ -80,11 +84,13 @@ export function Modal({
     const previousFocus = document.activeElement as HTMLElement | null;
 
     const focusable = getFocusableElements(dialog);
+
     (focusable[0] ?? dialog).focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && closeOnEscape) {
         onClose();
+
         return;
       }
 
@@ -93,8 +99,10 @@ export function Modal({
       }
 
       const elements = getFocusableElements(dialog);
+
       if (elements.length === 0) {
         e.preventDefault();
+
         return;
       }
 

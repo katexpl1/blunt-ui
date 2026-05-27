@@ -15,6 +15,7 @@ describe("Form", () => {
 
   it("calls onSubmit when submitted", () => {
     const onSubmit = jest.fn();
+
     render(
       <Form onSubmit={onSubmit}>
         <button type="submit">go</button>
@@ -26,6 +27,7 @@ describe("Form", () => {
 
   it("prevents default form submission", () => {
     const onSubmit = jest.fn();
+
     render(
       <Form onSubmit={onSubmit}>
         <button type="submit">go</button>
@@ -89,8 +91,10 @@ describe("FormField", () => {
         <input />
       </FormField>,
     );
+
     const label = screen.getByText("Email").closest("label");
     const input = screen.getByRole("textbox");
+
     expect(label?.htmlFor).toBe(input.id);
   });
 });

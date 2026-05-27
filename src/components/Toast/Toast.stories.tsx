@@ -28,6 +28,7 @@ type Story = StoryObj<typeof Toast>;
 export const Default: Story = {
   render: (args) => {
     const [open, setOpen] = useState(false);
+
     return (
       <>
         <Button onClick={() => setOpen(true)}>Show toast</Button>
@@ -116,6 +117,7 @@ export const Positions: Story = {
 export const NoDismiss: Story = {
   render: (args) => {
     const [open, setOpen] = useState(false);
+
     return (
       <>
         <Button onClick={() => setOpen(true)}>Show toast</Button>

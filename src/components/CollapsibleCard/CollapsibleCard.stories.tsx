@@ -76,6 +76,7 @@ export const WithHeaderActions: Story = {
 export const Controlled: Story = {
   render: ({ text }) => {
     const [open, setOpen] = useState(false);
+
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
         <Button onClick={() => setOpen((v) => !v)}>

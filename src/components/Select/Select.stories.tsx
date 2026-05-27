@@ -72,6 +72,7 @@ export const WithError: Story = {
 export const Clearable: Story = {
   render: () => {
     const [value, setValue] = useState("");
+
     return (
       <Select
         options={countryOptions}

@@ -16,6 +16,8 @@ export function useForm<T extends Record<string, string>>({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const valuesRef = useRef(values);
+
+  // eslint-disable-next-line react-hooks/refs
   valuesRef.current = values;
 
   const runValidate = useCallback(
@@ -23,7 +25,9 @@ export function useForm<T extends Record<string, string>>({
       if (!validate) {
         return {};
       }
+
       const raw = validate(v);
+
       return Object.fromEntries(
         Object.entries(raw).filter(([, msg]) => msg !== undefined),
       ) as Partial<Record<keyof T, string>>;
@@ -32,6 +36,8 @@ export function useForm<T extends Record<string, string>>({
   );
 
   const touchedRef = useRef(touched);
+
+  // eslint-disable-next-line react-hooks/refs
   touchedRef.current = touched;
 
   const handleChange = useCallback(
@@ -42,6 +48,7 @@ export function useForm<T extends Record<string, string>>({
     ) => {
       const { name, value } = e.target;
       const newValues = { ...valuesRef.current, [name]: value };
+
       setValues(newValues);
       if (touchedRef.current[name as keyof T]) {
         setAllErrors(runValidate(newValues));
@@ -55,6 +62,7 @@ export function useForm<T extends Record<string, string>>({
       e: FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     ) => {
       const { name } = e.target;
+
       setTouched((prev) => ({ ...prev, [name]: true }));
       setAllErrors(runValidate(valuesRef.current));
     },
@@ -69,13 +77,16 @@ export function useForm<T extends Record<string, string>>({
         (acc, key) => ({ ...acc, [key]: true }),
         {} as Partial<Record<keyof T, boolean>>,
       );
+
       setTouched(allTouched);
 
       const errs = runValidate(valuesRef.current);
+
       setAllErrors(errs);
 
       if (Object.keys(errs).length > 0) {
         onError?.(errs);
+
         return;
       }
 

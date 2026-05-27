@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import type { DefaultTheme } from "styled-components";
-import type { BadgeVariant, BadgeSize } from "./Badge.types";
+import type { BadgeVariants, BadgeSizes } from "./Badge.types";
 
 const brutalBadge = (theme: DefaultTheme, bg: string, color: string) => css`
   background: ${bg};
@@ -10,8 +10,8 @@ const brutalBadge = (theme: DefaultTheme, bg: string, color: string) => css`
 `;
 
 export const StyledBadge = styled.span<{
-  $variant: BadgeVariant;
-  $size: BadgeSize;
+  $variant: BadgeVariants;
+  $size: BadgeSizes;
 }>`
   display: inline-flex;
   align-items: center;
@@ -25,7 +25,7 @@ export const StyledBadge = styled.span<{
   max-width: 20ch;
 
   ${({ $size, theme }) => {
-    const sizes: Record<BadgeSize, ReturnType<typeof css>> = {
+    const sizes: Record<BadgeSizes, ReturnType<typeof css>> = {
       sm: css`
         padding: 2px 8px;
         font-size: ${theme.fontSizes.xs};
@@ -35,12 +35,13 @@ export const StyledBadge = styled.span<{
         font-size: ${theme.fontSizes.sm};
       `,
     };
+
     return sizes[$size];
   }}
 
   ${({ $variant, theme }) => {
     if (theme.brutalism) {
-      const variants: Record<BadgeVariant, ReturnType<typeof css>> = {
+      const variants: Record<BadgeVariants, ReturnType<typeof css>> = {
         primary: brutalBadge(
           theme,
           theme.colors.primary[500],
@@ -68,10 +69,11 @@ export const StyledBadge = styled.span<{
         ),
         info: brutalBadge(theme, theme.colors.info[50], theme.colors.info[500]),
       };
+
       return variants[$variant];
     }
 
-    const variants: Record<BadgeVariant, ReturnType<typeof css>> = {
+    const variants: Record<BadgeVariants, ReturnType<typeof css>> = {
       primary: css`
         background: ${theme.colors.primary[50]};
         color: ${theme.colors.primary[500]};
@@ -97,6 +99,7 @@ export const StyledBadge = styled.span<{
         color: ${theme.colors.info[500]};
       `,
     };
+
     return variants[$variant];
   }}
 `;

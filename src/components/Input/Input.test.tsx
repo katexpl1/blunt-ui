@@ -20,7 +20,9 @@ describe("Input component", () => {
 
   it("handles change event", () => {
     render(<Input placeholder="test" />);
+
     const input = screen.getByPlaceholderText("test");
+
     fireEvent.change(input, { target: { value: "abc" } });
     expect(input).toHaveValue("abc");
   });

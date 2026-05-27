@@ -20,6 +20,7 @@ describe("Toast component", () => {
 
   it("calls onClose when close button is clicked", () => {
     const onClose = jest.fn();
+
     render(<Toast open={true} onClose={onClose} message="Hello" />);
     fireEvent.click(
       screen.getByRole("button", { name: /close notification/i }),
@@ -29,7 +30,9 @@ describe("Toast component", () => {
 
   it("auto-dismisses after duration", () => {
     jest.useFakeTimers();
+
     const onClose = jest.fn();
+
     render(
       <Toast open={true} onClose={onClose} message="Hello" duration={3000} />,
     );
@@ -40,7 +43,9 @@ describe("Toast component", () => {
 
   it("does not auto-dismiss when duration is 0", () => {
     jest.useFakeTimers();
+
     const onClose = jest.fn();
+
     render(
       <Toast open={true} onClose={onClose} message="Hello" duration={0} />,
     );
@@ -51,9 +56,11 @@ describe("Toast component", () => {
 
   it("hides after close animation completes", async () => {
     jest.useFakeTimers();
+
     const { rerender } = render(
       <Toast open={true} onClose={() => {}} message="Hello" />,
     );
+
     expect(screen.getByRole("alert")).toBeInTheDocument();
 
     rerender(<Toast open={false} onClose={() => {}} message="Hello" />);
@@ -67,6 +74,7 @@ describe("Toast component", () => {
     const { rerender } = render(
       <Toast open={true} onClose={() => {}} message="msg" variant="success" />,
     );
+
     for (const variant of variants) {
       rerender(
         <Toast

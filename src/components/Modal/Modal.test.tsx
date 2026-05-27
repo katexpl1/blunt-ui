@@ -50,6 +50,7 @@ describe("Modal component", () => {
 
   it("calls onClose when close button is clicked", () => {
     const onClose = jest.fn();
+
     render(
       <Modal open={true} onClose={onClose}>
         Content
@@ -61,6 +62,7 @@ describe("Modal component", () => {
 
   it("calls onClose when Escape is pressed", () => {
     const onClose = jest.fn();
+
     render(
       <Modal open={true} onClose={onClose}>
         Content
@@ -72,6 +74,7 @@ describe("Modal component", () => {
 
   it("does not call onClose on Escape when closeOnEscape is false", () => {
     const onClose = jest.fn();
+
     render(
       <Modal open={true} onClose={onClose} closeOnEscape={false}>
         Content
@@ -83,6 +86,7 @@ describe("Modal component", () => {
 
   it("calls onClose when backdrop is clicked", () => {
     const onClose = jest.fn();
+
     render(
       <Modal open={true} onClose={onClose}>
         Content
@@ -95,6 +99,7 @@ describe("Modal component", () => {
 
   it("does not call onClose when closeOnBackdrop is false", () => {
     const onClose = jest.fn();
+
     render(
       <Modal open={true} onClose={onClose} closeOnBackdrop={false}>
         Content
@@ -106,6 +111,7 @@ describe("Modal component", () => {
 
   it("does not call onClose when dialog itself is clicked", () => {
     const onClose = jest.fn();
+
     render(
       <Modal open={true} onClose={onClose}>
         Content
@@ -130,19 +136,23 @@ describe("Modal component", () => {
         Content
       </Modal>,
     );
+
     const dialog = screen.getByRole("dialog");
     const titleId = dialog.getAttribute("aria-labelledby");
+
     expect(titleId).toBeTruthy();
     expect(document.getElementById(titleId!)).toHaveTextContent("Dialog Title");
   });
 
   it("hides when open changes from true to false", async () => {
     jest.useFakeTimers();
+
     const { rerender } = render(
       <Modal open={true} onClose={() => {}}>
         Content
       </Modal>,
     );
+
     expect(screen.getByRole("dialog")).toBeInTheDocument();
 
     rerender(
