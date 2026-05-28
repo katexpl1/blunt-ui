@@ -17,7 +17,6 @@ export function useForm<T extends Record<string, string>>({
 
   const valuesRef = useRef(values);
 
-  // eslint-disable-next-line react-hooks/refs
   valuesRef.current = values;
 
   const runValidate = useCallback(
@@ -37,7 +36,6 @@ export function useForm<T extends Record<string, string>>({
 
   const touchedRef = useRef(touched);
 
-  // eslint-disable-next-line react-hooks/refs
   touchedRef.current = touched;
 
   const handleChange = useCallback(

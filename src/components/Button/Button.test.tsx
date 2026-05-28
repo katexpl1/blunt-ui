@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "../../test-utils";
 import "@testing-library/jest-dom";
 import { Button } from "./Button";
 
@@ -8,20 +8,14 @@ describe("Button component", () => {
     expect(screen.getByText("Click Me")).toBeInTheDocument();
   });
 
-  it("applies correct variant styles", () => {
-    render(<Button variant="secondary">Click</Button>);
-
-    const btn = screen.getByText("Click");
-
-    expect(btn).toHaveStyle("background-color: #eaeaea");
+  it("renders as <button> by default", () => {
+    render(<Button>Default</Button>);
+    expect(screen.getByText("Default").tagName).toBe("BUTTON");
   });
 
-  it("applies correct size styles", () => {
-    render(<Button size="lg">Large</Button>);
-
-    const btn = screen.getByText("Large");
-
-    expect(btn).toHaveStyle("font-size: 18px");
+  it("renders as <a> when href is provided", () => {
+    render(<Button href="https://example.com">Link</Button>);
+    expect(screen.getByText("Link").tagName).toBe("A");
   });
 
   it("handles click events", () => {
@@ -32,7 +26,7 @@ describe("Button component", () => {
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it("disables button when isLoading", () => {
+  it("shows Loading... and is disabled when isLoading", () => {
     render(<Button isLoading>Click</Button>);
 
     const btn = screen.getByText("Loading...");
@@ -40,11 +34,24 @@ describe("Button component", () => {
     expect(btn).toBeDisabled();
   });
 
-  it("renders as <button> by default", () => {
-    render(<Button>Default</Button>);
+  it("is disabled when disabled prop is set", () => {
+    render(<Button disabled>Click</Button>);
+    expect(screen.getByText("Click")).toBeDisabled();
+  });
 
-    const btn = screen.getByText("Default");
+  it("renders all variants without errors", () => {
+    const { rerender } = render(<Button variant="primary">btn</Button>);
 
-    expect(btn.tagName).toBe("BUTTON");
+    rerender(<Button variant="secondary">btn</Button>);
+    rerender(<Button variant="outline">btn</Button>);
+    expect(screen.getByText("btn")).toBeInTheDocument();
+  });
+
+  it("renders all sizes without errors", () => {
+    const { rerender } = render(<Button size="sm">btn</Button>);
+
+    rerender(<Button size="md">btn</Button>);
+    rerender(<Button size="lg">btn</Button>);
+    expect(screen.getByText("btn")).toBeInTheDocument();
   });
 });

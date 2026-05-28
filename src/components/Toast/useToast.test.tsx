@@ -1,9 +1,18 @@
-import { act, render, renderHook, screen } from "@testing-library/react";
+import {
+  act,
+  render,
+  renderHook,
+  screen,
+  ThemeWrapper,
+} from "../../test-utils";
 import "@testing-library/jest-dom";
+import type { ReactNode } from "react";
 import { ToastProvider, useToast } from "./useToast";
 
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <ToastProvider>{children}</ToastProvider>
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <ThemeWrapper>
+    <ToastProvider>{children}</ToastProvider>
+  </ThemeWrapper>
 );
 
 describe("useToast", () => {

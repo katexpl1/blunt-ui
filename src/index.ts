@@ -73,6 +73,20 @@ export type {
   UseTableReturn,
 } from "./components/Table";
 export {
+  ConfirmDialog,
+  useConfirm,
+  ConfirmProvider,
+} from "./components/ConfirmDialog";
+export type {
+  ConfirmDialogProps,
+  ConfirmVariant,
+  ConfirmOptions,
+  ConfirmFn,
+  ConfirmContextValue,
+} from "./components/ConfirmDialog";
+export { DatePicker } from "./components/DatePicker";
+export type { DatePickerProps, DatePickerSizes } from "./components/DatePicker";
+export {
   neoBrutalTheme,
   createNeoBrutalTheme,
   ThemeProvider,

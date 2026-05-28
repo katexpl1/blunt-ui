@@ -1,8 +1,11 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "../../test-utils";
 import "@testing-library/jest-dom";
 import { Toast } from "./Toast";
 
 describe("Toast component", () => {
+  afterEach(() => {
+    jest.useRealTimers();
+  });
   it("renders when open is true", () => {
     render(<Toast open={true} onClose={() => {}} message="Hello" />);
     expect(screen.getByRole("alert")).toBeInTheDocument();
@@ -38,7 +41,6 @@ describe("Toast component", () => {
     );
     act(() => jest.advanceTimersByTime(3000));
     expect(onClose).toHaveBeenCalledTimes(1);
-    jest.useRealTimers();
   });
 
   it("does not auto-dismiss when duration is 0", () => {
@@ -51,10 +53,9 @@ describe("Toast component", () => {
     );
     act(() => jest.advanceTimersByTime(10000));
     expect(onClose).not.toHaveBeenCalled();
-    jest.useRealTimers();
   });
 
-  it("hides after close animation completes", async () => {
+  it("hides after close animation completes", () => {
     jest.useFakeTimers();
 
     const { rerender } = render(
@@ -66,7 +67,6 @@ describe("Toast component", () => {
     rerender(<Toast open={false} onClose={() => {}} message="Hello" />);
     act(() => jest.advanceTimersByTime(300));
     expect(screen.queryByRole("alert")).not.toBeInTheDocument();
-    jest.useRealTimers();
   });
 
   it("renders with different variants without errors", () => {

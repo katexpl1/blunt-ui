@@ -1,26 +1,15 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "../../test-utils";
 import "@testing-library/jest-dom";
-import type { ReactNode } from "react";
-import { ThemeProvider } from "styled-components";
-import { neoBrutalTheme } from "../../themes";
 import { CollapsibleCard } from "./CollapsibleCard";
-
-function Wrapper({ children }: { children: ReactNode }) {
-  return <ThemeProvider theme={neoBrutalTheme}>{children}</ThemeProvider>;
-}
-
-function renderWithTheme(ui: ReactNode) {
-  return render(ui, { wrapper: Wrapper });
-}
 
 describe("CollapsibleCard component", () => {
   it("renders title", () => {
-    renderWithTheme(<CollapsibleCard title="My card">Content</CollapsibleCard>);
+    render(<CollapsibleCard title="My card">Content</CollapsibleCard>);
     expect(screen.getByText("My card")).toBeInTheDocument();
   });
 
   it("renders children when open", () => {
-    renderWithTheme(
+    render(
       <CollapsibleCard title="My card" defaultOpen>
         Card content
       </CollapsibleCard>,
@@ -29,7 +18,7 @@ describe("CollapsibleCard component", () => {
   });
 
   it("renders subtitle when provided", () => {
-    renderWithTheme(
+    render(
       <CollapsibleCard title="My card" subtitle="v1.0.0">
         Content
       </CollapsibleCard>,
@@ -38,7 +27,7 @@ describe("CollapsibleCard component", () => {
   });
 
   it("renders headerActions when provided", () => {
-    renderWithTheme(
+    render(
       <CollapsibleCard title="My card" headerActions={<button>Action</button>}>
         Content
       </CollapsibleCard>,
@@ -47,7 +36,7 @@ describe("CollapsibleCard component", () => {
   });
 
   it("toggles open state on header click (uncontrolled)", () => {
-    renderWithTheme(<CollapsibleCard title="My card">Content</CollapsibleCard>);
+    render(<CollapsibleCard title="My card">Content</CollapsibleCard>);
 
     const header = screen.getByRole("button");
 
@@ -59,7 +48,7 @@ describe("CollapsibleCard component", () => {
   });
 
   it("starts open when defaultOpen is true", () => {
-    renderWithTheme(
+    render(
       <CollapsibleCard title="My card" defaultOpen>
         Content
       </CollapsibleCard>,
@@ -70,7 +59,7 @@ describe("CollapsibleCard component", () => {
   it("calls onToggle with new open state", () => {
     const onToggle = jest.fn();
 
-    renderWithTheme(
+    render(
       <CollapsibleCard title="My card" onToggle={onToggle}>
         Content
       </CollapsibleCard>,
@@ -80,7 +69,7 @@ describe("CollapsibleCard component", () => {
   });
 
   it("respects controlled open prop", () => {
-    const { rerender } = renderWithTheme(
+    const { rerender } = render(
       <CollapsibleCard title="My card" open={false} onToggle={() => {}}>
         Content
       </CollapsibleCard>,
@@ -90,12 +79,11 @@ describe("CollapsibleCard component", () => {
       "aria-expanded",
       "false",
     );
+
     rerender(
-      <ThemeProvider theme={neoBrutalTheme}>
-        <CollapsibleCard title="My card" open={true} onToggle={() => {}}>
-          Content
-        </CollapsibleCard>
-      </ThemeProvider>,
+      <CollapsibleCard title="My card" open={true} onToggle={() => {}}>
+        Content
+      </CollapsibleCard>,
     );
     expect(screen.getByRole("button")).toHaveAttribute("aria-expanded", "true");
   });
@@ -103,7 +91,7 @@ describe("CollapsibleCard component", () => {
   it("does not change state when controlled and header is clicked", () => {
     const onToggle = jest.fn();
 
-    renderWithTheme(
+    render(
       <CollapsibleCard title="My card" open={false} onToggle={onToggle}>
         Content
       </CollapsibleCard>,
@@ -119,7 +107,7 @@ describe("CollapsibleCard component", () => {
   it("header actions click does not toggle the card", () => {
     const onToggle = jest.fn();
 
-    renderWithTheme(
+    render(
       <CollapsibleCard
         title="My card"
         onToggle={onToggle}
@@ -133,15 +121,12 @@ describe("CollapsibleCard component", () => {
   });
 
   it("header button has aria-controls linking to content region", () => {
-    renderWithTheme(<CollapsibleCard title="My card">Content</CollapsibleCard>);
+    render(<CollapsibleCard title="My card">Content</CollapsibleCard>);
 
     const header = screen.getByRole("button");
     const contentId = header.getAttribute("aria-controls");
 
     expect(contentId).toBeTruthy();
-
-    const region = document.getElementById(contentId!);
-
-    expect(region).toBeInTheDocument();
+    expect(document.getElementById(contentId!)).toBeInTheDocument();
   });
 });

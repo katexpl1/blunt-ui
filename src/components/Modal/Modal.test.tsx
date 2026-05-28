@@ -1,8 +1,12 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "../../test-utils";
 import "@testing-library/jest-dom";
 import { Modal } from "./Modal";
 
 describe("Modal component", () => {
+  afterEach(() => {
+    document.body.style.overflow = "";
+    jest.useRealTimers();
+  });
   it("renders when open is true", () => {
     render(
       <Modal open={true} onClose={() => {}}>
@@ -92,7 +96,6 @@ describe("Modal component", () => {
         Content
       </Modal>,
     );
-
     fireEvent.click(screen.getByRole("dialog").parentElement!);
     expect(onClose).toHaveBeenCalledTimes(1);
   });
@@ -144,7 +147,7 @@ describe("Modal component", () => {
     expect(document.getElementById(titleId!)).toHaveTextContent("Dialog Title");
   });
 
-  it("hides when open changes from true to false", async () => {
+  it("hides when open changes from true to false", () => {
     jest.useFakeTimers();
 
     const { rerender } = render(
@@ -163,6 +166,5 @@ describe("Modal component", () => {
 
     act(() => jest.advanceTimersByTime(200));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    jest.useRealTimers();
   });
 });
