@@ -7,7 +7,7 @@ const meta: Meta<typeof Select> = {
   component: Select,
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },
-    variant: { control: "select", options: ["default", "outlined", "filled"] },
+    variant: { control: "select", options: ["default", "outlined"] },
     error: { control: "boolean" },
     disabled: { control: "boolean" },
     fullWidth: { control: "boolean" },
@@ -56,7 +56,6 @@ export const Variants: Story = {
         placeholder="outlined"
         variant="outlined"
       />
-      <Select options={countryOptions} placeholder="filled" variant="filled" />
     </div>
   ),
 };

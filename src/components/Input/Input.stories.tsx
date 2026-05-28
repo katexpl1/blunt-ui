@@ -11,7 +11,7 @@ const meta: Meta<typeof Input> = {
     size: { control: "select", options: ["sm", "md", "lg"] },
     variant: {
       control: "select",
-      options: ["default", "outlined", "filled"],
+      options: ["default", "outlined"],
     },
     type: {
       control: "select",

@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import type { InputSizes, InputVariants } from "./Input.types";
+import type { TextareaSizes, TextareaVariants } from "./Textarea.types";
 
 export const Wrapper = styled.div<{ $fullWidth?: boolean }>`
   display: flex;
@@ -19,20 +19,19 @@ export const HelperText = styled.span<{ $error?: boolean }>`
     $error ? theme.colors.error[500] : theme.colors.neutral[500]};
 `;
 
-export const InputContainer = styled.div<{
-  $size?: InputSizes;
-  $variant?: InputVariants;
+export const TextareaContainer = styled.div<{
+  $size?: TextareaSizes;
+  $variant?: TextareaVariants;
   $error?: boolean;
 }>`
   display: flex;
-  align-items: center;
   border-radius: ${({ theme }) => theme.radius.md};
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
 
   ${({ $size = "md", theme }) => {
-    const styles: Record<InputSizes, ReturnType<typeof css>> = {
+    const styles: Record<TextareaSizes, ReturnType<typeof css>> = {
       sm: css`
         padding: ${theme.spacing[1]} ${theme.spacing[2]};
         font-size: ${theme.fontSizes.sm};
@@ -60,7 +59,7 @@ export const InputContainer = styled.div<{
       `;
     }
 
-    const styles: Record<InputVariants, ReturnType<typeof css>> = {
+    const styles: Record<TextareaVariants, ReturnType<typeof css>> = {
       default: css`
         border: 1px solid ${theme.colors.neutral[400]};
         background-color: ${theme.colors.neutral[0]};
@@ -89,36 +88,17 @@ export const InputContainer = styled.div<{
   }
 `;
 
-export const StyledInput = styled.input`
+export const StyledTextarea = styled.textarea`
   flex: 1;
   border: none;
   outline: none;
   background: transparent;
   font: inherit;
+  resize: vertical;
+  min-height: 80px;
 
   &:disabled {
     cursor: not-allowed;
     opacity: 0.6;
-  }
-`;
-
-export const Slot = styled.div`
-  display: inline-flex;
-  align-items: center;
-  margin: 0 ${({ theme }) => theme.spacing[1]};
-`;
-
-export const SlotButton = styled.button`
-  display: inline-flex;
-  align-items: center;
-  margin: 0 ${({ theme }) => theme.spacing[1]};
-  padding: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font: inherit;
-
-  &:hover {
-    opacity: 0.8;
   }
 `;

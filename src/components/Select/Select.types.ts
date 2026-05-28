@@ -1,8 +1,7 @@
 import type { ComponentPropsWithRef } from "react";
-import type { InputSizes, InputVariants } from "../Input/Input.types";
 
-export type SelectSizes = InputSizes;
-export type SelectVariants = InputVariants;
+export type SelectSizes = "sm" | "md" | "lg";
+export type SelectVariants = "default" | "outlined";
 
 export interface SelectOption {
   value: string;

@@ -1,4 +1,4 @@
-import type { ToastVariants, ToastPosition } from "../../components/Toast";
+import type { ToastVariants, ToastPosition } from "./Toast.types";
 
 export interface ToastOptions {
   message: string;

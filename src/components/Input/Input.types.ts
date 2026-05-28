@@ -10,7 +10,7 @@ export type InputTypes =
   | "url";
 
 export type InputSizes = "sm" | "md" | "lg";
-export type InputVariants = "default" | "outlined" | "filled";
+export type InputVariants = "default" | "outlined";
 
 export interface InputProps extends Omit<
   ComponentPropsWithRef<"input">,

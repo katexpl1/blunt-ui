@@ -2,11 +2,11 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import type { ReactNode } from "react";
 import { ThemeProvider } from "styled-components";
-import { defaultTheme } from "../../themes";
+import { neoBrutalTheme } from "../../themes";
 import { CollapsibleCard } from "./CollapsibleCard";
 
 function Wrapper({ children }: { children: ReactNode }) {
-  return <ThemeProvider theme={defaultTheme}>{children}</ThemeProvider>;
+  return <ThemeProvider theme={neoBrutalTheme}>{children}</ThemeProvider>;
 }
 
 function renderWithTheme(ui: ReactNode) {
@@ -91,7 +91,7 @@ describe("CollapsibleCard component", () => {
       "false",
     );
     rerender(
-      <ThemeProvider theme={defaultTheme}>
+      <ThemeProvider theme={neoBrutalTheme}>
         <CollapsibleCard title="My card" open={true} onToggle={() => {}}>
           Content
         </CollapsibleCard>

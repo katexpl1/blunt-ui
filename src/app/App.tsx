@@ -1,10 +1,8 @@
 import { useState, useDeferredValue, useMemo } from "react";
-import { Badge } from "./components/Badge";
-import { Button } from "./components/Button";
-import { Link } from "./components/Link";
-import { ThemeProvider } from "./components/ThemeProvider";
-import { GlobalStyles } from "./styles/GlobalStyles";
-import { createNeoBrutalTheme } from "./themes";
+import { Badge } from "../components/Badge";
+import { Button } from "../components/Button";
+import { Link } from "../components/Link";
+import { ThemeProvider, GlobalStyles, createNeoBrutalTheme } from "../themes";
 import {
   Page,
   Card,

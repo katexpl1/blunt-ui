@@ -1,6 +1,6 @@
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
-import { neoBrutalTheme as defaultTheme } from "../../themes";
-import type { Theme } from "../../themes";
+import { neoBrutalTheme as defaultTheme } from "./neo-brutal";
+import type { Theme } from "./types";
 
 interface ThemeProviderProps {
   theme?: Theme;

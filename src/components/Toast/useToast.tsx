@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import type { ReactNode } from "react";
-import { Toast } from "../../components/Toast";
+import { Toast } from "./Toast";
 import type {
   ToastContextValue,
   ToastFn,

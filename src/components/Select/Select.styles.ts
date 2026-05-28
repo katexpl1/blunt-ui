@@ -75,10 +75,6 @@ export const StyledSelect = styled.select<{
         border: 2px solid ${theme.colors.primary[500]};
         background-color: ${theme.colors.neutral[0]};
       `,
-      filled: css`
-        border: 1px solid transparent;
-        background-color: ${theme.colors.neutral[100]};
-      `,
     };
 
     return styles[$variant];
