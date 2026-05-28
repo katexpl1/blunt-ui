@@ -117,9 +117,32 @@ export const Tbody = styled.tbody<{
   tr:last-child td {
     border-bottom: none;
   }
+
+  tr:hover td {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
 `;
 
 export const Tr = styled.tr``;
+
+export const ClickableTr = styled(Tr)<{ $accentColor?: string }>`
+  cursor: pointer;
+
+  td {
+    transition:
+      background-color 0.1s,
+      box-shadow 0.1s;
+  }
+
+  &:hover td {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  &:hover td:first-child {
+    box-shadow: inset 4px 0 0
+      ${({ $accentColor, theme }) => $accentColor ?? theme.colors.neutral[900]};
+  }
+`;
 
 export const Th = styled.th<{ $size: TableSizes; $bordered?: boolean }>`
   background-color: var(--th-bg);
@@ -132,12 +155,7 @@ export const Th = styled.th<{ $size: TableSizes; $bordered?: boolean }>`
 
   ${({ theme, $bordered }) =>
     theme.brutalism
-      ? css`
-          border-right: 1px solid var(--th-sep);
-          &:last-child {
-            border-right: none;
-          }
-        `
+      ? css``
       : css`
           border-bottom: 2px solid var(--th-sep);
           ${$bordered &&

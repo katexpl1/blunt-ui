@@ -8,6 +8,7 @@ import {
   Thead,
   Tbody,
   Tr,
+  ClickableTr,
   Th,
   Td,
   SortButton,
@@ -55,6 +56,7 @@ export function Table<
   totalRows,
   onPageChange,
   onChange,
+  onRowClick,
   borderColor,
   headerColor,
   rowColor,
@@ -170,22 +172,30 @@ export function Table<
               <EmptyCell colSpan={columns.length}>{emptyMessage}</EmptyCell>
             </tr>
           ) : (
-            displayData.map((row, rowIndex) => (
-              <Tr key={getRowKey(row, rowIndex)}>
-                {columns.map((col) => (
-                  <Td
-                    key={col.key}
-                    $size={size}
-                    $bordered={bordered}
-                    $borderColor={borderColor}
-                  >
-                    {col.render
-                      ? col.render(row[col.key], row, rowIndex)
-                      : String(row[col.key] ?? "") || " "}
-                  </Td>
-                ))}
-              </Tr>
-            ))
+            displayData.map((row, rowIndex) => {
+              const RowComponent = onRowClick ? ClickableTr : Tr;
+
+              return (
+                <RowComponent
+                  key={getRowKey(row, rowIndex)}
+                  onClick={onRowClick ? () => onRowClick(row) : undefined}
+                  $accentColor={onRowClick ? borderColor : undefined}
+                >
+                  {columns.map((col) => (
+                    <Td
+                      key={col.key}
+                      $size={size}
+                      $bordered={bordered}
+                      $borderColor={borderColor}
+                    >
+                      {col.render
+                        ? col.render(row[col.key], row, rowIndex)
+                        : String(row[col.key] ?? "") || " "}
+                    </Td>
+                  ))}
+                </RowComponent>
+              );
+            })
           )}
         </Tbody>
       </StyledTable>

@@ -47,6 +47,13 @@ export function useForm<T extends Record<string, string>>({
       >,
     ) => {
       const { name, value } = e.target;
+
+      if (process.env.NODE_ENV !== "production" && !name) {
+        console.warn(
+          "[useForm] handleChange: field is missing a `name` attribute — value will not be tracked.",
+        );
+      }
+
       const newValues = { ...valuesRef.current, [name]: value };
 
       setValues(newValues);
@@ -62,6 +69,12 @@ export function useForm<T extends Record<string, string>>({
       e: FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
     ) => {
       const { name } = e.target;
+
+      if (process.env.NODE_ENV !== "production" && !name) {
+        console.warn(
+          "[useForm] handleBlur: field is missing a `name` attribute — touched state will not be tracked.",
+        );
+      }
 
       setTouched((prev) => ({ ...prev, [name]: true }));
       setAllErrors(runValidate(valuesRef.current));
@@ -108,12 +121,15 @@ export function useForm<T extends Record<string, string>>({
     setValues((prev) => ({ ...prev, [field]: value }));
   }, []);
 
-  const reset = useCallback(() => {
-    setValues(initialValues);
-    setAllErrors({});
-    setTouched({});
-    setIsSubmitting(false);
-  }, [initialValues]);
+  const reset = useCallback(
+    (newValues?: T) => {
+      setValues(newValues ?? initialValues);
+      setAllErrors({});
+      setTouched({});
+      setIsSubmitting(false);
+    },
+    [initialValues],
+  );
 
   const errors = Object.fromEntries(
     Object.entries(allErrors).filter(([key]) => touched[key as keyof T]),

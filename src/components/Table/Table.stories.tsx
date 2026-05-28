@@ -249,6 +249,34 @@ export const StickyHeader: Story = {
   args: { stickyHeader: true, striped: true },
 };
 
+export const WithRowClick: Story = {
+  render: (args) => {
+    const [selected, setSelected] = useState<(typeof sampleData)[0] | null>(
+      null,
+    );
+
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <Table
+          {...args}
+          columns={statusColumns}
+          data={sampleData}
+          onRowClick={setSelected}
+        />
+        {selected ? (
+          <p style={{ margin: 0, fontSize: 13 }}>
+            Selected: <strong>{selected.product}</strong> — {selected.status}
+          </p>
+        ) : (
+          <p style={{ margin: 0, fontSize: 13, color: "#666" }}>
+            Click a row to select it
+          </p>
+        )}
+      </div>
+    );
+  },
+};
+
 export const FullyCustomized: Story = {
   args: {
     columns,

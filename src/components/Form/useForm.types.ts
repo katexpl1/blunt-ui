@@ -17,6 +17,6 @@ export interface UseFormReturn<T extends Record<string, string>> {
   handleBlur: (e: FocusEvent<FieldElement>) => void;
   handleSubmit: (e?: FormEvent) => void;
   setFieldValue: (field: keyof T, value: string) => void;
-  reset: () => void;
+  reset: (newValues?: T) => void;
   isSubmitting: boolean;
 }

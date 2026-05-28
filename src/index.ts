@@ -13,6 +13,23 @@ export type {
   InputSizes,
   InputVariants,
 } from "./components/Input";
+export { Textarea } from "./components/Textarea";
+export type {
+  TextareaProps,
+  TextareaSizes,
+  TextareaVariants,
+} from "./components/Textarea";
+export { Select } from "./components/Select";
+export type {
+  SelectProps,
+  SelectOption,
+  SelectSizes,
+  SelectVariants,
+} from "./components/Select";
+export { Editable } from "./components/Editable";
+export type { EditableProps } from "./components/Editable";
+export { Field } from "./components/Field";
+export type { FieldProps } from "./components/Field";
 export { Modal } from "./components/Modal";
 export type { ModalProps, ModalSizes } from "./components/Modal";
 export { Toast } from "./components/Toast";
@@ -34,17 +51,16 @@ export type {
   UseFormOptions,
   UseFormReturn,
 } from "./components/Form";
-export { Select } from "./components/Select";
-export type {
-  SelectProps,
-  SelectOption,
-  SelectSizes,
-  SelectVariants,
-} from "./components/Select";
 export { Link } from "./components/Link";
 export type { LinkProps, LinkVariants } from "./components/Link";
 export { CollapsibleCard } from "./components/CollapsibleCard";
 export type { CollapsibleCardProps } from "./components/CollapsibleCard";
+export { Spinner } from "./components/Spinner";
+export type {
+  SpinnerProps,
+  SpinnerSizes,
+  SpinnerWeights,
+} from "./components/Spinner";
 export { Table, useTable } from "./components/Table";
 export type {
   TableProps,
@@ -56,26 +72,6 @@ export type {
   UseTableOptions,
   UseTableReturn,
 } from "./components/Table";
-export { DataTable } from "./components/DataTable";
-export type {
-  DataTableProps,
-  DataTableColumn,
-  DataTableSelectOption,
-} from "./components/DataTable";
-export { Textarea } from "./components/Textarea";
-export type {
-  TextareaProps,
-  TextareaSizes,
-  TextareaVariants,
-} from "./components/Textarea";
-export { Field } from "./components/Field";
-export type { FieldProps } from "./components/Field";
-export { Spinner } from "./components/Spinner";
-export type {
-  SpinnerProps,
-  SpinnerSizes,
-  SpinnerWeights,
-} from "./components/Spinner";
 export {
   neoBrutalTheme,
   createNeoBrutalTheme,

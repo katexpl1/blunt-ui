@@ -121,6 +121,18 @@ describe("useForm", () => {
     expect(result.current.errors).toEqual({});
   });
 
+  it("reset with newValues populates the form with those values", () => {
+    const { result } = renderHook(() => useForm({ initialValues }));
+
+    act(() => {
+      result.current.reset({ email: "loaded@api.com", password: "secret123" });
+    });
+    expect(result.current.values.email).toBe("loaded@api.com");
+    expect(result.current.values.password).toBe("secret123");
+    expect(result.current.touched).toEqual({});
+    expect(result.current.errors).toEqual({});
+  });
+
   it("setFieldValue updates a specific field", () => {
     const { result } = renderHook(() => useForm({ initialValues }));
 

@@ -47,6 +47,7 @@ export interface TableProps<
   headerColor?: string;
   rowColor?: string;
   stripeColor?: string;
+  onRowClick?: (row: T) => void;
   className?: string;
   style?: CSSProperties;
 }
