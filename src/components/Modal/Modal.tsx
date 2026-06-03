@@ -39,6 +39,7 @@ export function Modal({
   ariaDescribedBy,
 }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
+  const mouseDownTargetRef = useRef<EventTarget | null>(null);
   const titleId = useId();
   const labelledBy = ariaLabelledBy ?? (title ? titleId : undefined);
 
@@ -137,7 +138,12 @@ export function Modal({
   return createPortal(
     <Backdrop
       $closing={isClosing}
-      onClick={closeOnBackdrop ? onClose : undefined}
+      onMouseDown={(e) => { mouseDownTargetRef.current = e.target; }}
+      onClick={(e) => {
+        if (closeOnBackdrop && mouseDownTargetRef.current === e.currentTarget) {
+          onClose();
+        }
+      }}
     >
       <Dialog
         ref={dialogRef}

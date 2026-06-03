@@ -28,6 +28,9 @@ export const Preview = styled.span<{ $disabled?: boolean; $empty?: boolean }>`
         `
       : css`
           cursor: text;
+          transition:
+            border-color 0.15s ease,
+            box-shadow 0.15s ease;
 
           &:hover {
             ${theme.brutalism
