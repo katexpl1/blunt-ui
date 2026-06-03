@@ -1,6 +1,8 @@
 # blunt-ui
 
-React + TypeScript + styled-components. Thick borders, offset shadows, no fluff. 11 components, 3 hooks.
+A React component library I built for myself and started using across projects. Neo-brutalism aesthetic — thick borders, offset shadows, high contrast. No animations, no gradients, no magic. Just components that do what they say.
+
+Built with React, TypeScript, and styled-components.
 
 **Live demo:** https://blunt-ui.vercel.app/
 
@@ -8,43 +10,129 @@ React + TypeScript + styled-components. Thick borders, offset shadows, no fluff.
 
 **npm:** https://www.npmjs.com/package/blunt-ui
 
-## Getting started
+## Install
+
+```bash
+npm install blunt-ui
+```
+
+Wrap your app with `ThemeProvider` and `GlobalStyles` once:
+
+```tsx
+import { ThemeProvider, GlobalStyles } from "blunt-ui";
+
+<ThemeProvider>
+  <GlobalStyles />
+  <App />
+</ThemeProvider>;
+```
+
+If you're using `useToast` or `useConfirm`, add their providers here too — more on those below.
+
+## Running locally
 
 ```bash
 npm install
-npm run storybook  # component explorer on port 6006
-npm run dev        # landing page with link to Storybook
+npm run storybook  # component explorer, port 6006
+npm run dev        # landing page
 npm test
 npm run build
 ```
 
-## Button
+---
 
-Variants: `primary`, `secondary`, `outline`. Sizes: `sm`, `md`, `lg`.
+## Components
+
+### Badge
+
+Small inline label for statuses, tags, counts — wherever you need a bit of color-coded context.
+
+Variants: `primary`, `neutral`, `success`, `error`, `warning`, `info`. Sizes: `sm` (default), `md`.
+
+```tsx
+<Badge variant="success">Active</Badge>
+<Badge variant="error" size="sm">Failed</Badge>
+```
+
+### Button
+
+Three variants: `primary` (filled), `secondary` (muted fill), `outline` (border only). Sizes: `sm`, `md`, `lg`.
 
 ```tsx
 <Button variant="primary" onClick={handleSave}>Save</Button>
 <Button variant="outline" isLoading={submitting}>Submit</Button>
 ```
 
-`isLoading` disables the button and shows "Loading...". The `as` prop swaps the element, handy for router links with button styles.
+`isLoading` disables the button and swaps the label for "Loading..." — no spinner, keeps the layout stable. The `as` prop lets you swap the underlying element, which is useful when you want a `<Link>` from your router but with button styles.
 
-## Input
+### Input
 
-Label, helper text, error message, left/right icon slots, and an optional clear button.
+Standard text input with a label, optional helper text, error state, left/right icon slots, and a clearable option.
 
 ```tsx
 <Input label="Email" type="email" error="Enter a valid email" />
 <Input label="Search" clearable leftElement={<SearchIcon />} onClear={() => setValue("")} />
 ```
 
-Pass a string to `error` to show a message, or `true` for just the red border.
+`error` accepts a string (shows a message below) or `true` (just turns the border red). Same pattern used across all form inputs.
 
-## Modal
+### Textarea
 
-Opens in a portal on `document.body`. Traps focus, locks body scroll, and closes on Escape or backdrop click by default.
+Multi-line input. Same props as Input — `label`, `helperText`, `error`, `fullWidth`. Variants: `default`, `outlined`. Sizes: `sm`, `md`, `lg`.
 
-Sizes: `sm`, `md`, `lg`, `fullscreen`.
+```tsx
+<Textarea label="Notes" helperText="Max 500 chars" />
+<Textarea label="Bio" variant="outlined" error="Required" rows={4} />
+```
+
+### Select
+
+Styled native `<select>`. I kept it native because custom dropdowns are more trouble than they're worth for most use cases. Same sizes and error handling as Input.
+
+```tsx
+<Select
+  options={[{ value: "frontend", label: "Frontend dev" }]}
+  placeholder="Pick one"
+  value={value}
+  onChange={(e) => setValue(e.target.value)}
+  clearable
+  onClear={() => setValue("")}
+/>
+```
+
+### Editable
+
+Click-to-edit inline text. Renders as plain text, turns into an input when clicked. Enter confirms, Escape cancels, blur also confirms.
+
+```tsx
+<Editable defaultValue="Untitled" onSubmit={(v) => save(v)} />
+```
+
+For controlled mode, pass `value` + `onChange`:
+
+```tsx
+<Editable
+  value={title}
+  onChange={setTitle}
+  onSubmit={(v) => api.rename(v)}
+  placeholder="Click to add a title"
+/>
+```
+
+### Field
+
+A read-only label + value pair. Useful for detail views or anywhere you're displaying data rather than collecting it.
+
+```tsx
+<Field label="Status" value="Active" />
+<Field label="Profile" value="View profile" href="/profile" />
+```
+
+Pass `href` and the value becomes a link.
+
+### Modal
+
+Opens in a portal on `document.body`. Traps focus, locks body scroll, closes on Escape or backdrop click. Sizes: `sm`, `md`, `lg`, `fullscreen`.
 
 ```tsx
 <Modal
@@ -66,33 +154,11 @@ Sizes: `sm`, `md`, `lg`, `fullscreen`.
 </Modal>
 ```
 
-## CollapsibleCard
+The `footer` slot is where you put action buttons — it renders at the bottom of the modal, separated from the content.
 
-A card with a clickable header that shows/hides its content. Supports controlled and uncontrolled modes, an optional subtitle, a slot for header actions, and an `accentColor` prop to tint the border and chevron.
+### Toast
 
-```tsx
-<CollapsibleCard title="blunt-ui" subtitle="Subtitle" defaultOpen>
-  React component library in neo-brutalism style.
-</CollapsibleCard>
-```
-
-Pass `open` + `onToggle` for controlled mode:
-
-```tsx
-<CollapsibleCard
-  title="Project"
-  open={isOpen}
-  onToggle={setIsOpen}
-  accentColor="#f97316"
-  headerActions={<Badge variant="primary">npm</Badge>}
->
-  {children}
-</CollapsibleCard>
-```
-
-## Toast
-
-Pops up in a portal, auto-dismisses after 4 seconds. Set `duration={0}` to keep it until the user closes it.
+Auto-dismisses after 4 seconds. Set `duration={0}` if you need it to stay until the user closes it manually.
 
 Variants: `success`, `error`, `warning`, `info`. Positions: `bottom-right`, `bottom-left`, `top-right`, `top-left`.
 
@@ -105,28 +171,15 @@ Variants: `success`, `error`, `warning`, `info`. Positions: `bottom-right`, `bot
 />
 ```
 
-## Select
+In practice you'll probably want `useToast` instead — see hooks below.
 
-Styled native select, works the same as Input for sizes, variants, and error handling. Pass `clearable` to add an X button.
+### Form
 
-```tsx
-<Select
-  options={[{ value: "frontend", label: "frontend dev" }]}
-  placeholder="pick one"
-  value={value}
-  onChange={(e) => setValue(e.target.value)}
-  clearable
-  onClear={() => setValue("")}
-/>
-```
-
-## Form
-
-`Form` is just a flex column wrapper that handles `preventDefault`. `FormField` adds the label, error message, helper text, and wires up the `htmlFor` automatically.
+`Form` is a flex column wrapper that calls `e.preventDefault()` for you. `FormField` handles the label, error message, helper text, and `htmlFor` wiring — so you don't have to manage IDs manually.
 
 ```tsx
 <Form onSubmit={handleSubmit}>
-  <FormField label="email" error={errors.email} required>
+  <FormField label="Email" error={errors.email} required>
     <Input
       type="email"
       value={email}
@@ -135,55 +188,59 @@ Styled native select, works the same as Input for sizes, variants, and error han
       name="email"
     />
   </FormField>
-  <Button type="submit">submit</Button>
+  <Button type="submit">Submit</Button>
 </Form>
 ```
 
-## useToast
+Pair with `useForm` for validation — they're designed to work together.
 
-Add `ToastProvider` once at the top of your app, then use `useToast()` anywhere inside it.
+### Link
 
-```tsx
-<ToastProvider>
-  <App />
-</ToastProvider>
-```
+Styled anchor. Variants: `default` and `subtle` (less prominent, for secondary links). Pass `external` and it adds `target="_blank"` and `rel="noopener noreferrer"` so you don't have to remember.
 
 ```tsx
-const { toast } = useToast();
-
-toast.success("saved!");
-toast.error("something went wrong");
+<Link href="/docs">Documentation</Link>
+<Link href="https://example.com" external variant="subtle">External link</Link>
 ```
 
-## useForm
+### CollapsibleCard
 
-Handles values, validation, and errors so you don't have to wire it all up yourself. Errors only show after the user has touched a field or tried to submit.
+A card with a header you can click to show/hide the content. Works uncontrolled out of the box — just use `defaultOpen` and forget about it. For controlled mode, pass `open` + `onToggle`.
 
 ```tsx
-const { values, errors, handleChange, handleBlur, handleSubmit, reset } =
-  useForm({
-    initialValues: { email: "", password: "" },
-    validate: (v) => ({
-      email: !v.email.trim() ? "required" : undefined,
-      password: v.password.length < 8 ? "min 8 chars" : undefined,
-    }),
-    onSubmit: (values) => {
-      /* only called when everything is valid */
-    },
-    onError: () => {
-      toast.error("fix the errors first");
-    },
-  });
+<CollapsibleCard title="Details" subtitle="Optional subtitle" defaultOpen>
+  Content goes here.
+</CollapsibleCard>
 ```
 
-The `name` on each input needs to match the key in `initialValues`. Use `reset()` to clear everything back to the start.
+`accentColor` tints the left border and the chevron icon. `headerActions` is a slot for extra stuff in the header — a badge, a button, whatever.
 
-## Table
+```tsx
+<CollapsibleCard
+  title="Project"
+  open={isOpen}
+  onToggle={setIsOpen}
+  accentColor="#f97316"
+  headerActions={<Badge variant="primary">New</Badge>}
+>
+  {children}
+</CollapsibleCard>
+```
 
-Read-only table with sorting and pagination. You define columns, pass data, done. Sorting and pagination work in both uncontrolled mode (component handles state internally) and controlled mode (you own the state, useful when data comes from an API).
+### Spinner
 
-Sizes: `sm`, `md`, `lg`.
+Loading indicator. Sizes: `sm`, `md`, `lg`. Weights: `thin`, `normal`, `bold`. You can override the color.
+
+```tsx
+<Spinner />
+<Spinner size="lg" weight="thin" color="#f97316" label="Loading data..." />
+```
+
+`label` sets an `aria-label` for screen readers but doesn't render visibly.
+
+### Table
+
+Read-only table with sorting and pagination built in. Define columns, pass data — that's the basic case.
 
 ```tsx
 const columns = [
@@ -203,63 +260,128 @@ const columns = [
 />;
 ```
 
-**Sorting** — add `sortable: true` to any column. By default the table sorts client-side. If you want to handle it yourself (e.g. send a query param to your backend), pass `sort` + `onSortChange` and it becomes controlled — the table just shows the sort indicator and tells you when it changed, you bring the sorted data.
+**Sorting** — add `sortable: true` to a column. Client-side by default. To sort server-side, pass `sort` + `onSortChange` — the table just shows the indicator and tells you what changed, you handle the data.
 
-**Pagination** — set `pageSize` and the table slices the data automatically. For server-side pagination, also pass `totalRows` so it knows how many pages there are, and control `page` + `onPageChange` yourself. If you need both sort and page in one callback, use `onChange` instead.
+**Pagination** — set `pageSize` and the table slices the data automatically. For server-side pagination, also pass `totalRows` (so it knows how many pages exist) and control `page` + `onPageChange` yourself. Use `onChange` if you need both sort and page changes in one callback.
 
-**Other stuff** — `loading` replaces rows with skeleton cells while data is loading. `stickyHeader` keeps the header in view when the table scrolls. `caption` adds a proper `<caption>` for accessibility.
+**Other props** — `loading` shows skeleton rows while data loads. `stickyHeader` keeps the header visible on scroll. `caption` adds an accessible `<caption>`.
 
-Color props: `borderColor`, `headerColor`, `rowColor`, `stripeColor`.
+Color props if you need to match a specific theme: `borderColor`, `headerColor`, `rowColor`, `stripeColor`.
 
-## DataTable
+### ConfirmDialog
 
-Editable table — good for things like spreadsheet-style input or inline CRUD. Each column can be editable or not, and you can mix text inputs with dropdowns.
+A specialized modal for destructive actions. Two variants: `default` and `danger` (the confirm button turns red). Wrap this in `useConfirm` if you're triggering it programmatically.
 
 ```tsx
-const columns = [
-  { key: "name", header: "Name", editable: true },
-  { key: "qty", header: "Qty", editable: true, width: "80px" },
-  {
-    key: "status",
-    header: "Status",
-    editable: true,
-    options: [
-      { value: "todo", label: "To do" },
-      { value: "in_progress", label: "In progress" },
-      { value: "done", label: "Done" },
-    ],
-  },
-];
-
-<DataTable
-  columns={columns}
-  defaultData={[{ name: "Widget", qty: "1", status: "todo" }]}
-  onChange={(rows) => console.log(rows)}
-  deletable
-  addRowLabel="Add item"
-/>;
+<ConfirmDialog
+  open={isOpen}
+  title="Delete item"
+  message="This can't be undone."
+  variant="danger"
+  confirmLabel="Delete"
+  onConfirm={handleDelete}
+  onCancel={() => setIsOpen(false)}
+/>
 ```
 
-**Editing** — click a text cell to start editing, Enter to confirm, Escape to cancel. For select cells (columns with `options`), one click opens the dropdown directly; picking an option saves immediately. Tab and Shift+Tab move between editable cells. Tab past the last cell adds a new row automatically.
+### DatePicker
 
-**Select columns** — add `options: [{ value, label }]` to a column. The cell stores the `value` but displays the `label`. The column still needs `editable: true`.
-
-**Controlled vs uncontrolled** — same pattern as the rest of the library. Pass `defaultData` and forget about it, or pass `data` + `onChange` if you need to keep the data in your own state.
-
-**Per-cell editability** — `editable` can be a function `(row, rowIndex) => boolean` if you need some cells to be editable based on row content.
-
-`deletable` adds a remove button per row. `newRowFactory` lets you control what an empty new row looks like (useful if you need generated IDs or default values).
-
-Color props: `borderColor`, `headerColor`.
-
-## useTable
-
-Helper hook for when your table data comes from a server. It keeps track of the current sort and page so you can use them in a fetch call, and passes them back to `<Table>` as controlled props.
+Calendar-based date input. Sizes: `sm`, `md`, `lg`. Supports `minDate`, `maxDate`, and `clearable`.
 
 ```tsx
-const { sort, page, onSortChange, onPageChange } = useTable({
-  defaultPage: 1,
-});
+<DatePicker value={date} onChange={setDate} placeholder="Pick a date" />
+<DatePicker value={date} onChange={setDate} minDate={new Date()} clearable />
+```
+
+`formatDate` controls how the selected date is displayed in the input field:
+
+```tsx
+<DatePicker
+  value={date}
+  onChange={setDate}
+  formatDate={(d) => d.toLocaleDateString("pl-PL")}
+/>
+```
+
+---
+
+## Hooks
+
+### useToast
+
+Wrap your app with `ToastProvider` once, then call `useToast()` anywhere you need to fire a notification.
+
+```tsx
+// main.tsx or App.tsx
+<ToastProvider>
+  <App />
+</ToastProvider>
+```
+
+```tsx
+const { toast } = useToast();
+
+toast.success("Saved!");
+toast.error("Something went wrong.");
+toast.warning("Are you sure?");
+toast.info("New version available.");
+```
+
+### useConfirm
+
+Same pattern as `useToast` — provider at the top, hook wherever you need it. Returns a promise so you can `await` the user's decision.
+
+```tsx
+<ConfirmProvider>
+  <App />
+</ConfirmProvider>
+```
+
+```tsx
+const confirm = useConfirm();
+
+const handleDelete = async () => {
+  const ok = await confirm({
+    title: "Delete item",
+    message: "This can't be undone.",
+    variant: "danger",
+    confirmLabel: "Delete",
+  });
+  if (ok) deleteItem();
+};
+```
+
+Much cleaner than managing open/close state for every confirm dialog in your app.
+
+### useForm
+
+Handles values, touched state, validation, and errors. Errors only show after a field has been touched or a submit was attempted — no red borders on page load.
+
+```tsx
+const { values, errors, handleChange, handleBlur, handleSubmit, reset } =
+  useForm({
+    initialValues: { email: "", password: "" },
+    validate: (v) => ({
+      email: !v.email.trim() ? "Required" : undefined,
+      password: v.password.length < 8 ? "Min 8 characters" : undefined,
+    }),
+    onSubmit: (values) => {
+      // only called when all validations pass
+    },
+    onError: () => {
+      toast.error("Fix the errors first.");
+    },
+  });
+```
+
+Each input's `name` needs to match a key in `initialValues`. `reset()` puts everything back to the initial state.
+
+### useTable
+
+A small helper for server-side table state. Tracks the current sort and page so you can pass them to a fetch call, then hands everything back to `<Table>` as controlled props.
+
+```tsx
+const { sort, page, onSortChange, onPageChange } = useTable({ defaultPage: 1 });
 
 useEffect(() => {
   fetchProducts({ sort, page });
@@ -277,8 +399,10 @@ useEffect(() => {
 />;
 ```
 
-When the user changes the sort column, the page resets to 1 automatically — that's usually what you want so you don't end up on page 5 of a different sort order. Pass `defaultSort` if you need a column sorted on first load.
+Changing the sort resets the page to 1 automatically — saves you from ending up on page 5 of a different sort order. Pass `defaultSort` if you need a column pre-sorted on first load.
+
+---
 
 ## Design tokens
 
-Colors, spacing, font sizes, and border radius live in `src/consts.ts`. All components pull from there, so changing a token updates everything at once.
+Everything lives in `src/consts.ts` — colors, spacing, font sizes, border radius. All components reference these, so updating a single token changes the look across the whole library.

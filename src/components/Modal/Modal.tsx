@@ -138,7 +138,9 @@ export function Modal({
   return createPortal(
     <Backdrop
       $closing={isClosing}
-      onMouseDown={(e) => { mouseDownTargetRef.current = e.target; }}
+      onMouseDown={(e) => {
+        mouseDownTargetRef.current = e.target;
+      }}
       onClick={(e) => {
         if (closeOnBackdrop && mouseDownTargetRef.current === e.currentTarget) {
           onClose();
