@@ -40,6 +40,9 @@ export function Modal({
 }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const mouseDownTargetRef = useRef<EventTarget | null>(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
   const titleId = useId();
   const labelledBy = ariaLabelledBy ?? (title ? titleId : undefined);
 
@@ -90,7 +93,7 @@ export function Modal({
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && closeOnEscape) {
-        onClose();
+        onCloseRef.current();
 
         return;
       }
@@ -129,7 +132,7 @@ export function Modal({
       document.removeEventListener("keydown", handleKeyDown);
       previousFocus?.focus();
     };
-  }, [open, closeOnEscape, onClose, isVisible]);
+  }, [open, closeOnEscape, isVisible]);
 
   if (!isVisible) {
     return null;
