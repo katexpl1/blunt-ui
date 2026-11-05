@@ -13,6 +13,12 @@ const withGlobalStyles = (Story: any) => {
 
 const preview: Preview = {
   decorators: [withGlobalStyles],
+  options: {
+    storySort: {
+      order: ["*"],
+      method: "alphabetical",
+    },
+  },
   parameters: {
     controls: {
       matchers: {

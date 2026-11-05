@@ -1,7 +1,7 @@
 export { Input } from "./Input";
 export type {
+  InputType,
+  InputSize,
+  InputVariant,
   InputProps,
-  InputTypes,
-  InputSizes,
-  InputVariants,
 } from "./Input.types";

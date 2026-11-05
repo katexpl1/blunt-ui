@@ -1,25 +1,25 @@
 import styled, { keyframes, css } from "styled-components";
-import type { SpinnerSizes, SpinnerWeights } from "./Spinner.types";
+import type { SpinnerSize, SpinnerWeight } from "./Spinner.types";
 
 const spin = keyframes`
   to { transform: rotate(360deg); }
 `;
 
-const sizeMap: Record<SpinnerSizes, string> = {
+const sizeMap: Record<SpinnerSize, string> = {
   sm: "16px",
   md: "24px",
   lg: "40px",
 };
 
-const weightMap: Record<SpinnerWeights, string> = {
+const weightMap: Record<SpinnerWeight, string> = {
   thin: "2px",
   normal: "3px",
   bold: "5px",
 };
 
 export const StyledSpinner = styled.span<{
-  $size?: SpinnerSizes;
-  $weight?: SpinnerWeights;
+  $size?: SpinnerSize;
+  $weight?: SpinnerWeight;
   $color?: string;
 }>`
   display: inline-block;

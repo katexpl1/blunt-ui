@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export type ModalSizes = "sm" | "md" | "lg" | "fullscreen";
+export type ModalSize = "sm" | "md" | "lg" | "fullscreen";
 
 export interface ModalProps {
   open: boolean;
@@ -8,7 +8,7 @@ export interface ModalProps {
   title?: string;
   children: ReactNode;
   footer?: ReactNode;
-  size?: ModalSizes;
+  size?: ModalSize;
   closeOnBackdrop?: boolean;
   closeOnEscape?: boolean;
   ariaLabelledBy?: string;

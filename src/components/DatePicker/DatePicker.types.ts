@@ -1,15 +1,26 @@
-export type DatePickerSizes = "sm" | "md" | "lg";
+export type DatePickerSize = "sm" | "md" | "lg";
 
 export interface DatePickerProps {
-  value?: Date | null;
-  onChange?: (date: Date | null) => void;
-  placeholder?: string;
-  size?: DatePickerSizes;
+  // Single mode (unchanged)
+  name?: string;
+  value?: string;
+  // Shared
+  onChange: (name: string, value: string) => void;
+  label?: string;
+  size?: DatePickerSize;
   disabled?: boolean;
   clearable?: boolean;
   minDate?: Date;
   maxDate?: Date;
   formatDate?: (date: Date) => string;
-  id?: string;
+  placeholder?: string;
   error?: boolean | string;
+  required?: boolean;
+  helperText?: string;
+  // Range mode (all optional — only used when mode="range")
+  mode?: "single" | "range";
+  nameFrom?: string;
+  nameTo?: string;
+  valueFrom?: string;
+  valueTo?: string;
 }

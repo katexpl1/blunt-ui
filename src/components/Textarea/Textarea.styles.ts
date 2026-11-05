@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import type { TextareaSizes, TextareaVariants } from "./Textarea.types";
+import type { TextareaSize, TextareaVariant } from "./Textarea.types";
 
 export const Wrapper = styled.div<{ $fullWidth?: boolean }>`
   display: flex;
@@ -10,7 +10,8 @@ export const Wrapper = styled.div<{ $fullWidth?: boolean }>`
 
 export const Label = styled.label`
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  font-weight: ${({ theme }) => (theme.brutalism ? "700" : "500")};
+  font-weight: ${({ theme }) =>
+    theme.brutalism ? theme.fontWeights.bold : theme.fontWeights.medium};
 `;
 
 export const HelperText = styled.span<{ $error?: boolean }>`
@@ -20,8 +21,8 @@ export const HelperText = styled.span<{ $error?: boolean }>`
 `;
 
 export const TextareaContainer = styled.div<{
-  $size?: TextareaSizes;
-  $variant?: TextareaVariants;
+  $size?: TextareaSize;
+  $variant?: TextareaVariant;
   $error?: boolean;
 }>`
   display: flex;
@@ -31,7 +32,7 @@ export const TextareaContainer = styled.div<{
     box-shadow 0.2s;
 
   ${({ $size = "md", theme }) => {
-    const styles: Record<TextareaSizes, ReturnType<typeof css>> = {
+    const styles: Record<TextareaSize, ReturnType<typeof css>> = {
       sm: css`
         padding: ${theme.spacing[1]} ${theme.spacing[2]};
         font-size: ${theme.fontSizes.sm};
@@ -59,7 +60,7 @@ export const TextareaContainer = styled.div<{
       `;
     }
 
-    const styles: Record<TextareaVariants, ReturnType<typeof css>> = {
+    const styles: Record<TextareaVariant, ReturnType<typeof css>> = {
       default: css`
         border: 1px solid ${theme.colors.neutral[400]};
         background-color: ${theme.colors.neutral[0]};

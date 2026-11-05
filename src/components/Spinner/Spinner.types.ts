@@ -1,9 +1,10 @@
-export type SpinnerSizes = "sm" | "md" | "lg";
-export type SpinnerWeights = "thin" | "normal" | "bold";
+export type SpinnerSize = "sm" | "md" | "lg";
+
+export type SpinnerWeight = "thin" | "normal" | "bold";
 
 export interface SpinnerProps {
-  size?: SpinnerSizes;
-  weight?: SpinnerWeights;
+  size?: SpinnerSize;
+  weight?: SpinnerWeight;
   color?: string;
   label?: string;
 }

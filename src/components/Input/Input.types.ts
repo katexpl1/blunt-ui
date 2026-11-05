@@ -1,6 +1,6 @@
 import type { ComponentPropsWithRef, ReactNode } from "react";
 
-export type InputTypes =
+export type InputType =
   | "text"
   | "email"
   | "password"
@@ -9,16 +9,17 @@ export type InputTypes =
   | "tel"
   | "url";
 
-export type InputSizes = "sm" | "md" | "lg";
-export type InputVariants = "default" | "outlined";
+export type InputSize = "sm" | "md" | "lg";
+
+export type InputVariant = "default" | "outlined";
 
 export interface InputProps extends Omit<
   ComponentPropsWithRef<"input">,
   "size" | "type"
 > {
-  type?: InputTypes;
-  size?: InputSizes;
-  variant?: InputVariants;
+  type?: InputType;
+  size?: InputSize;
+  variant?: InputVariant;
   label?: string;
   helperText?: string;
   error?: boolean | string;

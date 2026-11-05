@@ -6,39 +6,44 @@ export const Page = styled.div`
   justify-content: center;
   min-height: 100vh;
   background: ${({ theme }) => theme.colors.neutral[100]};
-  padding: 24px;
+  padding: ${({ theme }) => theme.spacing[6]};
 `;
 
 export const Card = styled.div`
   width: 100%;
   max-width: 560px;
   background: ${({ theme }) => theme.colors.neutral[0]};
-  border: 2px solid ${({ theme }) => theme.colors.neutral[900]};
-  box-shadow: 8px 8px 0 ${({ theme }) => theme.colors.neutral[900]};
+  border: ${({ theme }) => theme.brutalism?.borderWidth} solid
+    ${({ theme }) => theme.colors.neutral[900]};
+  box-shadow: ${({ theme }) => theme.spacing[2]}
+    ${({ theme }) => theme.spacing[2]} 0
+    ${({ theme }) => theme.colors.neutral[900]};
 `;
 
 export const CardAccent = styled.div`
   background: ${({ theme }) => theme.colors.primary[500]};
-  border-bottom: 2px solid ${({ theme }) => theme.colors.neutral[900]};
-  padding: 10px 32px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  border-bottom: ${({ theme }) => theme.brutalism?.borderWidth} solid
+    ${({ theme }) => theme.colors.neutral[900]};
+  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[8]}`};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.primary.contrast};
 `;
 
 export const CardBody = styled.div`
-  padding: 40px 32px 32px;
+  padding: ${({ theme }) =>
+    `${theme.spacing[10]} ${theme.spacing[8]} ${theme.spacing[8]}`};
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: ${({ theme }) => theme.spacing[6]};
 `;
 
 export const Title = styled.h1`
   margin: 0;
   font-size: 3.5rem;
-  font-weight: 700;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 1;
   letter-spacing: -0.03em;
   color: ${({ theme }) => theme.colors.neutral[900]};
@@ -46,28 +51,29 @@ export const Title = styled.h1`
 
 export const Subtitle = styled.p`
   margin: 0;
-  font-size: 1rem;
+  font-size: ${({ theme }) => theme.fontSizes.md};
   color: ${({ theme }) => theme.colors.neutral[500]};
   line-height: 1.5;
 `;
 
 export const BadgeRow = styled.div`
   display: flex;
-  gap: 8px;
+  gap: ${({ theme }) => theme.spacing[2]};
   flex-wrap: wrap;
 `;
 
 export const Actions = styled.div`
   display: flex;
-  gap: 12px;
+  gap: ${({ theme }) => theme.spacing[3]};
   flex-wrap: wrap;
 `;
 
 export const Credit = styled.p`
   margin: 0;
-  padding-top: 16px;
-  border-top: 2px solid ${({ theme }) => theme.colors.neutral[200]};
-  font-size: 0.8rem;
+  padding-top: ${({ theme }) => theme.spacing[4]};
+  border-top: ${({ theme }) => theme.brutalism?.borderWidth} solid
+    ${({ theme }) => theme.colors.neutral[200]};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
   color: ${({ theme }) => theme.colors.neutral[400]};
 
   a {
@@ -82,12 +88,12 @@ export const Credit = styled.p`
 export const ColorPickerRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: ${({ theme }) => theme.spacing[3]};
 `;
 
 export const ColorPickerLabel = styled.label`
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.neutral[500]};
@@ -95,11 +101,14 @@ export const ColorPickerLabel = styled.label`
 `;
 
 export const ColorInput = styled.input`
-  width: 32px;
-  height: 32px;
+  width: ${({ theme }) => theme.spacing[8]};
+  height: ${({ theme }) => theme.spacing[8]};
   border-radius: ${({ theme }) => theme.radius.md};
-  border: 2px solid ${({ theme }) => theme.colors.neutral[900]};
-  box-shadow: 2px 2px 0 ${({ theme }) => theme.colors.neutral[900]};
+  border: ${({ theme }) => theme.brutalism?.borderWidth} solid
+    ${({ theme }) => theme.colors.neutral[900]};
+  box-shadow: ${({ theme }) => theme.spacing[0.5]}
+    ${({ theme }) => theme.spacing[0.5]} 0
+    ${({ theme }) => theme.colors.neutral[900]};
   cursor: pointer;
   padding: 0;
   background: none;

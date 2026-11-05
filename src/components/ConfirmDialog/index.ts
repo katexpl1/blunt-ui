@@ -1,8 +1,10 @@
 export { ConfirmDialog } from "./ConfirmDialog";
-export type { ConfirmDialogProps, ConfirmVariant } from "./ConfirmDialog.types";
-export { useConfirm, ConfirmProvider } from "./useConfirm";
+export type { ConfirmVariant } from "./ConfirmDialog.types";
 export type {
+  ConfirmDialogProps,
   ConfirmOptions,
   ConfirmFn,
   ConfirmContextValue,
-} from "./useConfirm.types";
+} from "./ConfirmDialog.types";
+export { ConfirmProvider } from "./ConfirmDialog.provider";
+export { useConfirm } from "./ConfirmDialog.hooks";

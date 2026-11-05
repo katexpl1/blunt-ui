@@ -1,5 +1,5 @@
 import styled, { css, keyframes } from "styled-components";
-import type { ModalSizes } from "./Modal.types";
+import type { ModalSize } from "./Modal.types";
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -33,7 +33,7 @@ export const Backdrop = styled.div<{ $closing: boolean }>`
     forwards;
 `;
 
-export const Dialog = styled.div<{ $size: ModalSizes; $closing: boolean }>`
+export const Dialog = styled.div<{ $size: ModalSize; $closing: boolean }>`
   position: relative;
   background: ${({ theme }) => theme.colors.neutral[0]};
   border-radius: ${({ theme }) => theme.radius.md};
@@ -88,7 +88,7 @@ export const ModalHeader = styled.div`
 export const ModalTitle = styled.h2`
   flex: 1;
   font-size: ${({ theme }) => theme.fontSizes.lg};
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   margin: 0;
 `;
 

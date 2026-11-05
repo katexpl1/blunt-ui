@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
-import type { LinkVariants } from "./Link.types";
+import type { LinkVariant } from "./Link.types";
 
-export const StyledLink = styled.a<{ $variant: LinkVariants }>`
+export const StyledLink = styled.a<{ $variant: LinkVariant }>`
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: color 0.15s;
@@ -13,14 +13,14 @@ export const StyledLink = styled.a<{ $variant: LinkVariants }>`
   }
 
   ${({ $variant, theme }) => {
-    const styles: Record<LinkVariants, ReturnType<typeof css>> = {
-      default: css`
+    const styles: Record<LinkVariant, ReturnType<typeof css>> = {
+      ["default"]: css`
         color: ${theme.colors.primary[500]};
         &:hover {
           color: ${theme.colors.primary[700]};
         }
       `,
-      subtle: css`
+      ["subtle"]: css`
         color: ${theme.colors.neutral[500]};
         &:hover {
           color: ${theme.colors.neutral[900]};

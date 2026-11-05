@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import type { DefaultTheme } from "styled-components";
-import type { ButtonVariants, ButtonSizes } from "./Button.types";
+import type { ButtonVariant, ButtonSize } from "./Button.types";
 
 const brutalVariant = (theme: DefaultTheme, bg: string, color: string) => css`
   background-color: ${bg};
@@ -18,14 +18,14 @@ const brutalVariant = (theme: DefaultTheme, bg: string, color: string) => css`
 `;
 
 export const StyledButton = styled.button<{
-  $variant: ButtonVariants;
-  $size: ButtonSizes;
+  $variant: ButtonVariant;
+  $size: ButtonSize;
 }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: ${({ theme }) => theme.radius.md};
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   cursor: pointer;
   text-decoration: none;
 
@@ -41,7 +41,7 @@ export const StyledButton = styled.button<{
 
   ${({ $variant, theme }) => {
     if (theme.brutalism) {
-      const styles: Record<ButtonVariants, ReturnType<typeof css>> = {
+      const styles: Record<ButtonVariant, ReturnType<typeof css>> = {
         primary: brutalVariant(
           theme,
           theme.colors.primary[500],
@@ -62,7 +62,7 @@ export const StyledButton = styled.button<{
       return styles[$variant];
     }
 
-    const styles: Record<ButtonVariants, ReturnType<typeof css>> = {
+    const styles: Record<ButtonVariant, ReturnType<typeof css>> = {
       primary: css`
         background-color: ${theme.colors.primary[500]};
         color: ${theme.colors.neutral[0]};
@@ -93,7 +93,7 @@ export const StyledButton = styled.button<{
   }}
 
   ${({ $size, theme }) => {
-    const styles: Record<ButtonSizes, ReturnType<typeof css>> = {
+    const styles: Record<ButtonSize, ReturnType<typeof css>> = {
       sm: css`
         padding: ${theme.spacing[1]} ${theme.spacing[3]};
         font-size: ${theme.fontSizes.sm};

@@ -16,10 +16,26 @@ export interface Theme {
     warning: { 50: string; 500: string };
     info: { 50: string; 500: string };
   };
-  spacing: { 1: string; 2: string; 3: string; 4: string; 5: string; 6: string };
+  spacing: {
+    0.5: string;
+    1: string;
+    2: string;
+    3: string;
+    4: string;
+    5: string;
+    6: string;
+    8: string;
+    10: string;
+  };
   radius: { md: string };
   zIndex: { modal: number; toast: number };
   fontSizes: { xs: string; sm: string; md: string; lg: string };
+  fontWeights: {
+    normal: string;
+    medium: string;
+    semibold: string;
+    bold: string;
+  };
   shadows: { focusRing: string };
   brutalism?: {
     borderWidth: string;

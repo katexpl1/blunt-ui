@@ -1,6 +1,6 @@
 # blunt-ui
 
-A React component library I built for myself and started using across projects. Neo-brutalism aesthetic — thick borders, offset shadows, high contrast. No animations, no gradients, no magic. Just components that do what they say.
+A React component library I built for myself and started using across projects. Neo-brutalism aesthetic - thick borders, offset shadows, high contrast. No animations, no gradients, no magic. Just components that do what they say.
 
 Built with React, TypeScript, and styled-components.
 
@@ -27,7 +27,7 @@ import { ThemeProvider, GlobalStyles } from "blunt-ui";
 </ThemeProvider>;
 ```
 
-If you're using `useToast` or `useConfirm`, add their providers here too — more on those below.
+If you're using `useToast` or `useConfirm`, add their providers here too - more on those below.
 
 ## Running locally
 
@@ -45,7 +45,7 @@ npm run build
 
 ### Badge
 
-Small inline label for statuses, tags, counts — wherever you need a bit of color-coded context.
+Small inline label for statuses, tags, counts - wherever you need a bit of color-coded context.
 
 Variants: `primary`, `neutral`, `success`, `error`, `warning`, `info`. Sizes: `sm` (default), `md`.
 
@@ -63,7 +63,7 @@ Three variants: `primary` (filled), `secondary` (muted fill), `outline` (border 
 <Button variant="outline" isLoading={submitting}>Submit</Button>
 ```
 
-`isLoading` disables the button and swaps the label for "Loading..." — no spinner, keeps the layout stable. The `as` prop lets you swap the underlying element, which is useful when you want a `<Link>` from your router but with button styles.
+`isLoading` disables the button and swaps the label for "Loading..." - no spinner, keeps the layout stable. The `as` prop lets you swap the underlying element, which is useful when you want a `<Link>` from your router but with button styles.
 
 ### Input
 
@@ -78,16 +78,58 @@ Standard text input with a label, optional helper text, error state, left/right 
 
 ### Textarea
 
-Multi-line input. Same props as Input — `label`, `helperText`, `error`, `fullWidth`. Variants: `default`, `outlined`. Sizes: `sm`, `md`, `lg`.
+Multi-line input. Same props as Input - `label`, `helperText`, `error`, `fullWidth`. Variants: `default`, `outlined`. Sizes: `sm`, `md`, `lg`.
 
 ```tsx
 <Textarea label="Notes" helperText="Max 500 chars" />
 <Textarea label="Bio" variant="outlined" error="Required" rows={4} />
 ```
 
+### Checkbox
+
+```tsx
+<Checkbox
+  label="Accept terms and conditions"
+  checked={checked}
+  onChange={(e) => setChecked(e.target.checked)}
+/>
+<Checkbox label="Required field" error="You must accept the terms" />
+```
+
+Sizes: `sm`, `md`. Shows an error message below when `error` is a string, turns the border red when `error` is a boolean.
+
+### Radio
+
+Same hidden-input pattern as Checkbox, but circular. Use multiple radios with the same `name` for a group, or manage `checked` yourself.
+
+```tsx
+{["remote", "hybrid", "on-site"].map((option) => (
+  <Radio
+    key={option}
+    name="workMode"
+    value={option}
+    label={option}
+    checked={value === option}
+    onChange={(e) => setValue(e.target.value)}
+  />
+))}
+```
+
+### Switch
+
+A toggle. Same API as Checkbox - `checked` + `onChange`. Sizes: `sm`, `md`.
+
+```tsx
+<Switch
+  label="Enable notifications"
+  checked={enabled}
+  onChange={(e) => setEnabled(e.target.checked)}
+/>
+```
+
 ### Select
 
-Styled native `<select>`. I kept it native because custom dropdowns are more trouble than they're worth for most use cases. Same sizes and error handling as Input.
+Custom dropdown - full keyboard navigation (arrow keys, Enter, Escape, Home/End), styled to match the rest of the library. `onChange` fires a synthetic event with `name` and `value`, so it works with `useForm.handleChange` without any changes.
 
 ```tsx
 <Select
@@ -154,7 +196,7 @@ Opens in a portal on `document.body`. Traps focus, locks body scroll, closes on 
 </Modal>
 ```
 
-The `footer` slot is where you put action buttons — it renders at the bottom of the modal, separated from the content.
+The `footer` slot is where you put action buttons - it renders at the bottom of the modal, separated from the content.
 
 ### Toast
 
@@ -171,11 +213,11 @@ Variants: `success`, `error`, `warning`, `info`. Positions: `bottom-right`, `bot
 />
 ```
 
-In practice you'll probably want `useToast` instead — see hooks below.
+In practice you'll probably want `useToast` instead - see hooks below.
 
 ### Form
 
-`Form` is a flex column wrapper that calls `e.preventDefault()` for you. `FormField` handles the label, error message, helper text, and `htmlFor` wiring — so you don't have to manage IDs manually.
+`Form` is a flex column wrapper that calls `e.preventDefault()` for you. `FormField` handles the label, error message, helper text, and `htmlFor` wiring - so you don't have to manage IDs manually.
 
 ```tsx
 <Form onSubmit={handleSubmit}>
@@ -192,7 +234,7 @@ In practice you'll probably want `useToast` instead — see hooks below.
 </Form>
 ```
 
-Pair with `useForm` for validation — they're designed to work together.
+Pair with `useForm` for validation - they're designed to work together.
 
 ### Link
 
@@ -205,7 +247,7 @@ Styled anchor. Variants: `default` and `subtle` (less prominent, for secondary l
 
 ### CollapsibleCard
 
-A card with a header you can click to show/hide the content. Works uncontrolled out of the box — just use `defaultOpen` and forget about it. For controlled mode, pass `open` + `onToggle`.
+A card with a header you can click to show/hide the content. Works uncontrolled out of the box - just use `defaultOpen` and forget about it. For controlled mode, pass `open` + `onToggle`.
 
 ```tsx
 <CollapsibleCard title="Details" subtitle="Optional subtitle" defaultOpen>
@@ -213,7 +255,7 @@ A card with a header you can click to show/hide the content. Works uncontrolled 
 </CollapsibleCard>
 ```
 
-`accentColor` tints the left border and the chevron icon. `headerActions` is a slot for extra stuff in the header — a badge, a button, whatever.
+`accentColor` tints the left border and the chevron icon. `headerActions` is a slot for extra stuff in the header - a badge, a button, whatever.
 
 ```tsx
 <CollapsibleCard
@@ -240,7 +282,7 @@ Loading indicator. Sizes: `sm`, `md`, `lg`. Weights: `thin`, `normal`, `bold`. Y
 
 ### Table
 
-Read-only table with sorting and pagination built in. Define columns, pass data — that's the basic case.
+Read-only table with sorting and pagination built in. Define columns, pass data - that's the basic case.
 
 ```tsx
 const columns = [
@@ -260,11 +302,11 @@ const columns = [
 />;
 ```
 
-**Sorting** — add `sortable: true` to a column. Client-side by default. To sort server-side, pass `sort` + `onSortChange` — the table just shows the indicator and tells you what changed, you handle the data.
+**Sorting** - add `sortable: true` to a column. Client-side by default. To sort server-side, pass `sort` + `onSortChange` - the table just shows the indicator and tells you what changed, you handle the data.
 
-**Pagination** — set `pageSize` and the table slices the data automatically. For server-side pagination, also pass `totalRows` (so it knows how many pages exist) and control `page` + `onPageChange` yourself. Use `onChange` if you need both sort and page changes in one callback.
+**Pagination** - set `pageSize` and the table slices the data automatically. For server-side pagination, also pass `totalRows` (so it knows how many pages exist) and control `page` + `onPageChange` yourself. Use `onChange` if you need both sort and page changes in one callback.
 
-**Other props** — `loading` shows skeleton rows while data loads. `stickyHeader` keeps the header visible on scroll. `caption` adds an accessible `<caption>`.
+**Other props** - `loading` shows skeleton rows while data loads. `stickyHeader` keeps the header visible on scroll. `caption` adds an accessible `<caption>`.
 
 Color props if you need to match a specific theme: `borderColor`, `headerColor`, `rowColor`, `stripeColor`.
 
@@ -286,19 +328,39 @@ A specialized modal for destructive actions. Two variants: `default` and `danger
 
 ### DatePicker
 
-Calendar-based date input. Sizes: `sm`, `md`, `lg`. Supports `minDate`, `maxDate`, and `clearable`.
+Calendar date picker. Stores the value as an ISO string (`"YYYY-MM-DD"` or `""`) so it plays nicely with `useForm` without any conversion. `onChange` fires `(name, value)` - same as `setFieldValue`.
+
+Sizes: `sm`, `md`, `lg`. Supports `minDate`, `maxDate`, `clearable`, `label`, `error`, `helperText`.
 
 ```tsx
-<DatePicker value={date} onChange={setDate} placeholder="Pick a date" />
-<DatePicker value={date} onChange={setDate} minDate={new Date()} clearable />
+// Standalone
+const [date, setDate] = useState("");
+
+<DatePicker name="date" value={date} onChange={(_, v) => setDate(v)} />;
 ```
 
-`formatDate` controls how the selected date is displayed in the input field:
+With `useForm`, just pass `setFieldValue` straight in:
+
+```tsx
+const { values, setFieldValue } = useForm({
+  initialValues: { dateApplied: "" },
+});
+
+<DatePicker
+  name="dateApplied"
+  label="Date applied"
+  value={values.dateApplied}
+  onChange={setFieldValue}
+/>;
+```
+
+`formatDate` changes how the picked date shows in the trigger:
 
 ```tsx
 <DatePicker
+  name="date"
   value={date}
-  onChange={setDate}
+  onChange={(_, v) => setDate(v)}
   formatDate={(d) => d.toLocaleDateString("pl-PL")}
 />
 ```
@@ -329,7 +391,7 @@ toast.info("New version available.");
 
 ### useConfirm
 
-Same pattern as `useToast` — provider at the top, hook wherever you need it. Returns a promise so you can `await` the user's decision.
+Same pattern as `useToast` - provider at the top, hook wherever you need it. Returns a promise so you can `await` the user's decision.
 
 ```tsx
 <ConfirmProvider>
@@ -355,7 +417,7 @@ Much cleaner than managing open/close state for every confirm dialog in your app
 
 ### useForm
 
-Handles values, touched state, validation, and errors. Errors only show after a field has been touched or a submit was attempted — no red borders on page load.
+Handles values, touched state, validation, and errors. Errors only show after a field has been touched or a submit was attempted - no red borders on page load.
 
 ```tsx
 const { values, errors, handleChange, handleBlur, handleSubmit, reset } =
@@ -375,6 +437,20 @@ const { values, errors, handleChange, handleBlur, handleSubmit, reset } =
 ```
 
 Each input's `name` needs to match a key in `initialValues`. `reset()` puts everything back to the initial state.
+
+The library ships with validators you can use in the `validate` function:
+
+```tsx
+import { required, minLength, isEmail, isUrl, composeValidators } from "blunt-ui";
+
+validate: (v) => ({
+  email: composeValidators(required(), isEmail())(v.email),
+  password: minLength(8)(v.password),
+  website: isUrl()(v.website),
+})
+```
+
+`composeValidators` runs validators left to right and returns the first error. Available validators: `required`, `minLength`, `maxLength`, `isEmail`, `isUrl`, `pattern`.
 
 ### useTable
 
@@ -399,10 +475,18 @@ useEffect(() => {
 />;
 ```
 
-Changing the sort resets the page to 1 automatically — saves you from ending up on page 5 of a different sort order. Pass `defaultSort` if you need a column pre-sorted on first load.
+Changing the sort resets the page to 1 automatically - saves you from ending up on page 5 of a different sort order. Pass `defaultSort` if you need a column pre-sorted on first load.
 
 ---
 
 ## Design tokens
 
-Everything lives in `src/consts.ts` — colors, spacing, font sizes, border radius. All components reference these, so updating a single token changes the look across the whole library.
+Everything lives in `src/themes/neo-brutal.ts` - colors, spacing, font sizes, font weights, border radius. All components pull from the theme, so changing a single token updates the look everywhere.
+
+The accent color is the only thing I designed to be easily swappable:
+
+```ts
+import { createNeoBrutalTheme } from "blunt-ui";
+
+const theme = createNeoBrutalTheme("#f97316"); // swap yellow for orange
+```

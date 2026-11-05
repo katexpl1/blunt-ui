@@ -1,11 +1,12 @@
 import type { ComponentPropsWithRef, ElementType } from "react";
 
-export type ButtonVariants = "primary" | "secondary" | "outline";
-export type ButtonSizes = "sm" | "md" | "lg";
+export type ButtonVariant = "primary" | "secondary" | "outline";
+
+export type ButtonSize = "sm" | "md" | "lg";
 
 type ButtonOwnProps = {
-  variant?: ButtonVariants;
-  size?: ButtonSizes;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   isLoading?: boolean;
   href?: string;
   target?: string;

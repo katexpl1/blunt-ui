@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import type { DefaultTheme } from "styled-components";
-import type { BadgeVariants, BadgeSizes } from "./Badge.types";
+import type { BadgeVariant, BadgeSize } from "./Badge.types";
 
 const brutalBadge = (theme: DefaultTheme, bg: string, color: string) => css`
   background: ${bg};
@@ -10,12 +10,12 @@ const brutalBadge = (theme: DefaultTheme, bg: string, color: string) => css`
 `;
 
 export const StyledBadge = styled.span<{
-  $variant: BadgeVariants;
-  $size: BadgeSizes;
+  $variant: BadgeVariant;
+  $size: BadgeSize;
 }>`
   display: inline-flex;
   align-items: center;
-  font-weight: 700;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   letter-spacing: 0.04em;
   cursor: default;
   border-radius: ${({ theme }) => theme.radius.md};
@@ -25,13 +25,13 @@ export const StyledBadge = styled.span<{
   max-width: 20ch;
 
   ${({ $size, theme }) => {
-    const sizes: Record<BadgeSizes, ReturnType<typeof css>> = {
+    const sizes: Record<BadgeSize, ReturnType<typeof css>> = {
       sm: css`
-        padding: 2px 8px;
+        padding: ${theme.spacing[0.5]} ${theme.spacing[2]};
         font-size: ${theme.fontSizes.xs};
       `,
       md: css`
-        padding: 4px 10px;
+        padding: ${theme.spacing[1]} ${theme.spacing[3]};
         font-size: ${theme.fontSizes.sm};
       `,
     };
@@ -41,7 +41,7 @@ export const StyledBadge = styled.span<{
 
   ${({ $variant, theme }) => {
     if (theme.brutalism) {
-      const variants: Record<BadgeVariants, ReturnType<typeof css>> = {
+      const variants: Record<BadgeVariant, ReturnType<typeof css>> = {
         primary: brutalBadge(
           theme,
           theme.colors.primary[500],
@@ -73,7 +73,7 @@ export const StyledBadge = styled.span<{
       return variants[$variant];
     }
 
-    const variants: Record<BadgeVariants, ReturnType<typeof css>> = {
+    const variants: Record<BadgeVariant, ReturnType<typeof css>> = {
       primary: css`
         background: ${theme.colors.primary[50]};
         color: ${theme.colors.primary[500]};

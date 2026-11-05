@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 
-export type TableSizes = "sm" | "md" | "lg";
+export type TableSize = "sm" | "md" | "lg";
+
 export type SortDirection = "asc" | "desc";
 
 export interface SortState {
@@ -21,13 +22,25 @@ export interface TableChangeState {
   page: number;
 }
 
+export interface UseTableOptions {
+  defaultSort?: SortState;
+  defaultPage?: number;
+}
+
+export interface UseTableReturn {
+  sort: SortState | null;
+  page: number;
+  onSortChange: (sort: SortState | null) => void;
+  onPageChange: (page: number) => void;
+}
+
 export interface TableProps<
   T extends Record<string, unknown> = Record<string, unknown>,
 > {
   columns: TableColumn<T>[];
   data: T[];
   rowKey?: string;
-  size?: TableSizes;
+  size?: TableSize;
   striped?: boolean;
   bordered?: boolean;
   stickyHeader?: boolean;

@@ -1,8 +1,10 @@
 export { Toast } from "./Toast";
-export type { ToastProps, ToastVariants, ToastPosition } from "./Toast.types";
-export { useToast, ToastProvider } from "./useToast";
+export type { ToastVariant, ToastPosition } from "./Toast.types";
 export type {
+  ToastProps,
   ToastOptions,
   ToastFn,
   ToastContextValue,
-} from "./useToast.types";
+} from "./Toast.types";
+export { ToastProvider } from "./Toast.provider";
+export { useToast } from "./Toast.hooks";

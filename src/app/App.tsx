@@ -2,7 +2,12 @@ import { useState, useDeferredValue, useMemo } from "react";
 import { Badge } from "../components/Badge";
 import { Button } from "../components/Button";
 import { Link } from "../components/Link";
-import { ThemeProvider, GlobalStyles, createNeoBrutalTheme } from "../themes";
+import {
+  ThemeProvider,
+  GlobalStyles,
+  createNeoBrutalTheme,
+  neoBrutalTheme,
+} from "../themes";
 import {
   Page,
   Card,
@@ -17,17 +22,10 @@ import {
   ColorPickerLabel,
   ColorInput,
 } from "./App.styles";
-
-const BADGES = [
-  "React",
-  "TypeScript",
-  "styled-components",
-  "9 components",
-  "2 hooks",
-];
+import { BADGES } from "./App.consts";
 
 function App() {
-  const [accent, setAccent] = useState("#ffd000");
+  const [accent, setAccent] = useState(neoBrutalTheme.colors.primary[500]);
   const deferredAccent = useDeferredValue(accent);
   const theme = useMemo(
     () => createNeoBrutalTheme(deferredAccent),
@@ -47,9 +45,9 @@ function App() {
               borders, offset shadows, zero fluff.
             </Subtitle>
             <BadgeRow>
-              {BADGES.map((b) => (
-                <Badge key={b} variant="primary">
-                  {b}
+              {BADGES.map((badge) => (
+                <Badge key={badge} variant="primary">
+                  {badge}
                 </Badge>
               ))}
             </BadgeRow>

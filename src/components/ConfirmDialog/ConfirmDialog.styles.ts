@@ -12,7 +12,7 @@ export const DangerButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: ${({ theme }) => theme.radius.md};
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   cursor: pointer;
   padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
   font-size: ${({ theme }) => theme.fontSizes.md};

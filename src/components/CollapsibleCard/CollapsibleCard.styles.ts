@@ -54,7 +54,7 @@ export const HeaderText = styled.div`
 export const Title = styled.span`
   display: block;
   font-size: ${({ theme }) => theme.fontSizes.md};
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   color: ${({ theme }) => theme.colors.neutral[900]};
 `;
 

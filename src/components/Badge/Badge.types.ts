@@ -1,15 +1,16 @@
 import type { ComponentPropsWithRef } from "react";
 
-export type BadgeVariants =
+export type BadgeVariant =
   | "primary"
   | "neutral"
   | "success"
   | "error"
   | "warning"
   | "info";
-export type BadgeSizes = "sm" | "md";
+
+export type BadgeSize = "sm" | "md";
 
 export type BadgeProps = ComponentPropsWithRef<"span"> & {
-  variant?: BadgeVariants;
-  size?: BadgeSizes;
+  variant?: BadgeVariant;
+  size?: BadgeSize;
 };

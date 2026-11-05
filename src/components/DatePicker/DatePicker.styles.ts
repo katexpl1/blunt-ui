@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import type { DatePickerSizes } from "./DatePicker.types";
+import type { DatePickerSize } from "./DatePicker.types";
 
 export const DatePickerWrapper = styled.div`
   position: relative;
@@ -9,7 +9,7 @@ export const DatePickerWrapper = styled.div`
 `;
 
 export const TriggerContainer = styled.div<{
-  $size: DatePickerSizes;
+  $size: DatePickerSize;
   $error?: boolean;
   $disabled?: boolean;
 }>`
@@ -24,16 +24,16 @@ export const TriggerContainer = styled.div<{
     box-shadow 0.2s;
 
   ${({ $size, theme }) => {
-    const styles: Record<DatePickerSizes, ReturnType<typeof css>> = {
-      sm: css`
+    const styles: Record<DatePickerSize, ReturnType<typeof css>> = {
+      ["sm"]: css`
         padding: ${theme.spacing[1]} ${theme.spacing[2]};
         font-size: ${theme.fontSizes.sm};
       `,
-      md: css`
+      ["md"]: css`
         padding: ${theme.spacing[2]} ${theme.spacing[3]};
         font-size: ${theme.fontSizes.md};
       `,
-      lg: css`
+      ["lg"]: css`
         padding: ${theme.spacing[3]} ${theme.spacing[4]};
         font-size: ${theme.fontSizes.lg};
       `,
@@ -191,7 +191,7 @@ export const NavButton = styled.button`
 `;
 
 export const MonthYear = styled.span`
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   font-size: ${({ theme }) => theme.fontSizes.md};
   color: ${({ theme }) => theme.colors.neutral[900]};
 `;
@@ -199,7 +199,7 @@ export const MonthYear = styled.span`
 export const DayGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
+  gap: ${({ theme }) => theme.spacing[0.5]};
 `;
 
 export const DayHeader = styled.span`
@@ -207,16 +207,19 @@ export const DayHeader = styled.span`
   align-items: center;
   justify-content: center;
   font-size: ${({ theme }) => theme.fontSizes.xs};
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   color: ${({ theme }) => theme.colors.neutral[500]};
   padding: ${({ theme }) => theme.spacing[1]};
-  margin-bottom: 2px;
+  margin-bottom: ${({ theme }) => theme.spacing[0.5]};
 `;
 
 export const DayCell = styled.button<{
   $currentMonth: boolean;
   $selected: boolean;
   $today: boolean;
+  $rangeStart?: boolean;
+  $rangeEnd?: boolean;
+  $inRange?: boolean;
 }>`
   display: flex;
   align-items: center;
@@ -228,24 +231,68 @@ export const DayCell = styled.button<{
   cursor: pointer;
   font-size: ${({ theme }) => theme.fontSizes.sm};
   padding: ${({ theme }) => theme.spacing[1]};
-  font-weight: ${({ $today, $selected }) =>
-    $today || $selected ? "600" : "400"};
+  font-weight: ${({
+    $today,
+    $selected,
+    $rangeStart,
+    $rangeEnd,
+    $inRange,
+    theme,
+  }) =>
+    $today || $selected || $rangeStart || $rangeEnd
+      ? theme.fontWeights.semibold
+      : $inRange
+        ? theme.fontWeights.normal
+        : theme.fontWeights.normal};
   pointer-events: ${({ $currentMonth }) => ($currentMonth ? "auto" : "none")};
 
-  color: ${({ $currentMonth, $selected, $today, theme }) => {
-    if (!$currentMonth) return theme.colors.neutral[300];
-    if ($selected) return theme.colors.primary.contrast;
-    if ($today) return theme.colors.primary[500];
+  color: ${({
+    $currentMonth,
+    $selected,
+    $today,
+    $rangeStart,
+    $rangeEnd,
+    theme,
+  }) => {
+    if (!$currentMonth) {
+      return theme.colors.neutral[300];
+    }
+    if ($selected || $rangeStart || $rangeEnd) {
+      return theme.colors.primary.contrast;
+    }
+    if ($today) {
+      return theme.colors.primary[500];
+    }
 
     return theme.colors.neutral[900];
   }};
 
-  background-color: ${({ $selected, theme }) =>
-    $selected ? theme.colors.primary[500] : "transparent"};
+  background-color: ${({
+    $selected,
+    $rangeStart,
+    $rangeEnd,
+    $inRange,
+    $currentMonth,
+    theme,
+  }) => {
+    if (!$currentMonth) {
+      return "transparent";
+    }
+    if ($selected || $rangeStart || $rangeEnd) {
+      return theme.colors.primary[500];
+    }
+    if ($inRange) {
+      return theme.colors.primary[50];
+    }
+
+    return "transparent";
+  }};
 
   &:hover:not(:disabled) {
-    background-color: ${({ $selected, theme }) =>
-      $selected ? theme.colors.primary[700] : theme.colors.neutral[100]};
+    background-color: ${({ $selected, $rangeStart, $rangeEnd, theme }) =>
+      $selected || $rangeStart || $rangeEnd
+        ? theme.colors.primary[700]
+        : theme.colors.neutral[100]};
   }
 
   &:disabled {
@@ -258,12 +305,12 @@ export const DayCell = styled.button<{
     outline-offset: 1px;
   }
 
-  ${({ $selected, $today, theme }) =>
+  ${({ $selected, $rangeStart, $rangeEnd, $today, theme }) =>
     theme.brutalism &&
-    ($selected || $today) &&
+    ($selected || $rangeStart || $rangeEnd || $today) &&
     css`
       border: ${theme.brutalism!.borderWidth} solid ${theme.colors.neutral[900]};
-      ${$selected &&
+      ${($selected || $rangeStart || $rangeEnd) &&
       css`
         box-shadow: 2px 2px 0 ${theme.colors.neutral[900]};
       `}

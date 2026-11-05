@@ -9,7 +9,8 @@ export const Wrapper = styled.div`
 export const FieldLabel = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   color: ${({ theme }) => theme.colors.neutral[500]};
-  font-weight: ${({ theme }) => (theme.brutalism ? "700" : "500")};
+  font-weight: ${({ theme }) =>
+    theme.brutalism ? theme.fontWeights.bold : theme.fontWeights.medium};
 `;
 
 export const Value = styled.span`

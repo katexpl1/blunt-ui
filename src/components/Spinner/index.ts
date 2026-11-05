@@ -1,6 +1,2 @@
 export { Spinner } from "./Spinner";
-export type {
-  SpinnerProps,
-  SpinnerSizes,
-  SpinnerWeights,
-} from "./Spinner.types";
+export type { SpinnerSize, SpinnerWeight, SpinnerProps } from "./Spinner.types";

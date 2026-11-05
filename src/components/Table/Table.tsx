@@ -1,7 +1,7 @@
 import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 import type { TableProps, SortState } from "./Table.types";
-import { useTableSort } from "./useTableSort";
-import { useTablePagination, getPageNumbers } from "./useTablePagination";
+import { useTableSort } from "./Table.hooks";
+import { useTablePagination, getPageNumbers } from "./Table.hooks";
 import {
   TableWrapper,
   StyledTable,

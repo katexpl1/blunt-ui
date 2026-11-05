@@ -1,8 +1,8 @@
 import type { ComponentPropsWithRef } from "react";
 
-export type LinkVariants = "default" | "subtle";
+export type LinkVariant = "default" | "subtle";
 
 export interface LinkProps extends ComponentPropsWithRef<"a"> {
-  variant?: LinkVariants;
+  variant?: LinkVariant;
   external?: boolean;
 }

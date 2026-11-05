@@ -1,8 +1,8 @@
 import styled, { css, keyframes } from "styled-components";
 import type { DefaultTheme } from "styled-components";
-import type { TableSizes } from "./Table.types";
+import type { TableSize } from "./Table.types";
 
-const cellPadding = ($size: TableSizes, theme: DefaultTheme) => {
+const cellPadding = ($size: TableSize, theme: DefaultTheme) => {
   if ($size === "sm") {
     return `${theme.spacing[1]} ${theme.spacing[2]}`;
   }
@@ -42,11 +42,11 @@ export const TableWrapper = styled.div<{
     `}
 `;
 
-export const StyledTable = styled.table<{ $size: TableSizes }>`
+export const StyledTable = styled.table<{ $size: TableSize }>`
   width: 100%;
   border-collapse: collapse;
   font-size: ${({ $size, theme }) => {
-    const map: Record<TableSizes, string> = {
+    const map: Record<TableSize, string> = {
       sm: theme.fontSizes.sm,
       md: theme.fontSizes.md,
       lg: theme.fontSizes.lg,
@@ -56,7 +56,7 @@ export const StyledTable = styled.table<{ $size: TableSizes }>`
   }};
 
   caption {
-    padding: 8px 0;
+    padding: ${({ theme }) => theme.spacing[2]} 0;
   }
 `;
 
@@ -144,11 +144,11 @@ export const ClickableTr = styled(Tr)<{ $accentColor?: string }>`
   }
 `;
 
-export const Th = styled.th<{ $size: TableSizes; $bordered?: boolean }>`
+export const Th = styled.th<{ $size: TableSize; $bordered?: boolean }>`
   background-color: var(--th-bg);
   color: var(--th-text);
   text-align: left;
-  font-weight: 700;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   white-space: nowrap;
 
   padding: ${({ $size, theme }) => cellPadding($size, theme)};
@@ -177,7 +177,7 @@ export const SortButton = styled.button`
   cursor: pointer;
   font: inherit;
   color: inherit;
-  font-weight: 700;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   padding: 0;
   width: 100%;
   text-align: left;
@@ -196,7 +196,7 @@ export const SortIcon = styled.span`
 `;
 
 export const Td = styled.td<{
-  $size: TableSizes;
+  $size: TableSize;
   $bordered?: boolean;
   $borderColor?: string;
 }>`

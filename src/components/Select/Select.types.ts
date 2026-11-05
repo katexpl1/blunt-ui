@@ -1,7 +1,8 @@
-import type { ComponentPropsWithRef } from "react";
+import type { ChangeEvent } from "react";
 
-export type SelectSizes = "sm" | "md" | "lg";
-export type SelectVariants = "default" | "outlined";
+export type SelectSize = "sm" | "md" | "lg";
+
+export type SelectVariant = "default" | "outlined";
 
 export interface SelectOption {
   value: string;
@@ -9,16 +10,22 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
-export interface SelectProps extends Omit<
-  ComponentPropsWithRef<"select">,
-  "size"
-> {
+export interface SelectProps {
   options: SelectOption[];
   placeholder?: string;
-  size?: SelectSizes;
-  variant?: SelectVariants;
+  size?: SelectSize;
+  variant?: SelectVariant;
   error?: boolean | string;
   fullWidth?: boolean;
   clearable?: boolean;
   onClear?: () => void;
+  id?: string;
+  name?: string;
+  value?: string;
+  defaultValue?: string;
+  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
+  disabled?: boolean;
+  searchable?: boolean;
+  "aria-label"?: string;
+  "aria-describedby"?: string;
 }

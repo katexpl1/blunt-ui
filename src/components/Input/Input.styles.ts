@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import type { InputSizes, InputVariants } from "./Input.types";
+import type { InputSize, InputVariant } from "./Input.types";
 
 export const Wrapper = styled.div<{ $fullWidth?: boolean }>`
   display: flex;
@@ -10,7 +10,8 @@ export const Wrapper = styled.div<{ $fullWidth?: boolean }>`
 
 export const Label = styled.label`
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  font-weight: ${({ theme }) => (theme.brutalism ? "700" : "500")};
+  font-weight: ${({ theme }) =>
+    theme.brutalism ? theme.fontWeights.bold : theme.fontWeights.medium};
 `;
 
 export const HelperText = styled.span<{ $error?: boolean }>`
@@ -20,8 +21,8 @@ export const HelperText = styled.span<{ $error?: boolean }>`
 `;
 
 export const InputContainer = styled.div<{
-  $size?: InputSizes;
-  $variant?: InputVariants;
+  $size?: InputSize;
+  $variant?: InputVariant;
   $error?: boolean;
 }>`
   display: flex;
@@ -32,7 +33,7 @@ export const InputContainer = styled.div<{
     box-shadow 0.2s;
 
   ${({ $size = "md", theme }) => {
-    const styles: Record<InputSizes, ReturnType<typeof css>> = {
+    const styles: Record<InputSize, ReturnType<typeof css>> = {
       sm: css`
         padding: ${theme.spacing[1]} ${theme.spacing[2]};
         font-size: ${theme.fontSizes.sm};
@@ -60,7 +61,7 @@ export const InputContainer = styled.div<{
       `;
     }
 
-    const styles: Record<InputVariants, ReturnType<typeof css>> = {
+    const styles: Record<InputVariant, ReturnType<typeof css>> = {
       default: css`
         border: 1px solid ${theme.colors.neutral[400]};
         background-color: ${theme.colors.neutral[0]};
