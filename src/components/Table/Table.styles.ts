@@ -15,7 +15,7 @@ const cellPadding = ($size: TableSize, theme: DefaultTheme) => {
 
 export const TableWrapper = styled.div<{
   $borderColor?: string;
-  $stickyHeader?: boolean;
+  $stickyPagination?: boolean;
 }>`
   width: 100%;
 
@@ -34,12 +34,21 @@ export const TableWrapper = styled.div<{
           overflow: hidden;
         `}
 
-  overflow-x: auto;
-  ${({ $stickyHeader }) =>
-    $stickyHeader &&
-    css`
-      overflow-y: auto;
-    `}
+  ${({ $stickyPagination }) =>
+    $stickyPagination
+      ? css`
+          display: flex;
+          flex-direction: column;
+        `
+      : css`
+          overflow-x: auto;
+        `}
+`;
+
+export const TableScrollArea = styled.div`
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
 `;
 
 export const StyledTable = styled.table<{ $size: TableSize }>`
@@ -254,12 +263,14 @@ export const SkeletonLine = styled.div`
   animation: ${shimmer} 1.6s ease-in-out infinite;
 `;
 
-export const PaginationBar = styled.div`
+export const PaginationBar = styled.div<{ $hasPageSizeOptions?: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: ${({ $hasPageSizeOptions }) =>
+    $hasPageSizeOptions ? "space-between" : "center"};
   gap: ${({ theme }) => theme.spacing[1]};
   padding: ${({ theme }) => `${theme.spacing[2]} ${theme.spacing[3]}`};
+  flex-shrink: 0;
 
   ${({ theme }) =>
     theme.brutalism
@@ -270,6 +281,50 @@ export const PaginationBar = styled.div`
       : css`
           border-top: 1px solid ${theme.colors.neutral[200]};
         `}
+`;
+
+export const PageSizeControl = styled.label`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[2]};
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme }) => theme.colors.neutral[500]};
+  white-space: nowrap;
+
+  select {
+    padding: ${({ theme }) => `${theme.spacing[1]} ${theme.spacing[2]}`};
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    font-family: inherit;
+    color: ${({ theme }) => theme.colors.neutral[900]};
+    background-color: ${({ theme }) => theme.colors.neutral[0]};
+    cursor: pointer;
+
+    ${({ theme }) =>
+      theme.brutalism
+        ? css`
+            border: ${theme.brutalism.borderWidth} solid
+              ${theme.colors.neutral[900]};
+          `
+        : css`
+            border: 1px solid ${theme.colors.neutral[300]};
+            border-radius: ${theme.radius.md};
+
+            &:hover {
+              border-color: ${theme.colors.neutral[400]};
+            }
+
+            &:focus {
+              outline: 2px solid ${theme.colors.primary[500]};
+              outline-offset: 1px;
+            }
+          `}
+  }
+`;
+
+export const PageButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[1]};
 `;
 
 export const PageButton = styled.button<{ $active?: boolean }>`

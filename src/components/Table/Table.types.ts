@@ -44,6 +44,7 @@ export interface TableProps<
   striped?: boolean;
   bordered?: boolean;
   stickyHeader?: boolean;
+  stickyPagination?: boolean;
   caption?: string;
   emptyMessage?: string;
   loading?: boolean;
@@ -55,6 +56,8 @@ export interface TableProps<
   defaultPage?: number;
   totalRows?: number;
   onPageChange?: (page: number) => void;
+  pageSizeOptions?: number[];
+  onPageSizeChange?: (pageSize: number) => void;
   onChange?: (state: TableChangeState) => void;
   borderColor?: string;
   headerColor?: string;

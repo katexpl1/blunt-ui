@@ -109,6 +109,7 @@ const meta: Meta<typeof Table> = {
     striped: { control: "boolean" },
     bordered: { control: "boolean" },
     stickyHeader: { control: "boolean" },
+    stickyPagination: { control: "boolean" },
     loading: { control: "boolean" },
     caption: { control: "text" },
     emptyMessage: { control: "text" },
@@ -126,6 +127,8 @@ const meta: Meta<typeof Table> = {
     defaultPage: { table: { disable: true } },
     totalRows: { table: { disable: true } },
     onPageChange: { table: { disable: true } },
+    pageSizeOptions: { table: { disable: true } },
+    onPageSizeChange: { table: { disable: true } },
     onChange: { table: { disable: true } },
     rowKey: { table: { disable: true } },
   },
@@ -289,4 +292,43 @@ export const FullyCustomized: Story = {
     rowColor: "#eef2ff",
     stripeColor: "#c7d2fe",
   },
+};
+
+export const WithPageSizeSelector: Story = {
+  render: (args) => {
+    const { sort, page, onSortChange, onPageChange } = useTable({ defaultPage: 1 });
+    const [pageSize, setPageSize] = useState(10);
+
+    const handlePageSizeChange = (newSize: number) => {
+      setPageSize(newSize);
+      onPageChange(1);
+    };
+
+    const sorted = sort
+      ? [...largeData].sort((a, b) => {
+          const av = a[sort.key as keyof typeof a];
+          const bv = b[sort.key as keyof typeof b];
+          const cmp = av < bv ? -1 : av > bv ? 1 : 0;
+          return sort.direction === "asc" ? cmp : -cmp;
+        })
+      : largeData;
+
+    return (
+      <Table
+        {...args}
+        columns={sortableColumns}
+        data={sorted}
+        sort={sort}
+        onSortChange={onSortChange}
+        page={page}
+        onPageChange={onPageChange}
+        pageSize={pageSize}
+        pageSizeOptions={[5, 10, 20, 50]}
+        onPageSizeChange={handlePageSizeChange}
+        totalRows={largeData.length}
+        style={{ height: 380 }}
+      />
+    );
+  },
+  args: { striped: true, stickyHeader: true, stickyPagination: true },
 };

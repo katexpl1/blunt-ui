@@ -4,6 +4,7 @@ import { useTableSort } from "./Table.hooks";
 import { useTablePagination, getPageNumbers } from "./Table.hooks";
 import {
   TableWrapper,
+  TableScrollArea,
   StyledTable,
   Thead,
   Tbody,
@@ -17,7 +18,9 @@ import {
   SkeletonCell,
   SkeletonLine,
   PaginationBar,
+  PageButtons,
   PageButton,
+  PageSizeControl,
 } from "./Table.styles";
 
 const SKELETON_ROWS = 4;
@@ -44,6 +47,7 @@ export function Table<
   striped,
   bordered,
   stickyHeader,
+  stickyPagination,
   caption,
   emptyMessage = "No data",
   loading,
@@ -55,6 +59,8 @@ export function Table<
   defaultPage,
   totalRows,
   onPageChange,
+  pageSizeOptions,
+  onPageSizeChange,
   onChange,
   onRowClick,
   borderColor,
@@ -105,15 +111,11 @@ export function Table<
 
   const isEmpty = !loading && displayData.length === 0;
   const skeletonCount = pageSize ?? SKELETON_ROWS;
+  const showPagination = !!pageSize && totalPages > 1;
+  const showPageSizeOptions = !!pageSizeOptions?.length;
 
-  return (
-    <TableWrapper
-      $borderColor={borderColor}
-      $stickyHeader={stickyHeader}
-      className={className}
-      style={style}
-    >
-      <StyledTable $size={size}>
+  const tableContent = (
+    <StyledTable $size={size}>
         {caption && <caption>{caption}</caption>}
         <Thead
           $headerColor={headerColor}
@@ -199,8 +201,28 @@ export function Table<
           )}
         </Tbody>
       </StyledTable>
-      {pageSize && totalPages > 1 && (
-        <PaginationBar>
+  );
+
+  const pagination = (showPagination || showPageSizeOptions) && (
+    <PaginationBar $hasPageSizeOptions={showPageSizeOptions}>
+      {showPageSizeOptions && (
+        <PageSizeControl>
+          Rows per page:
+          <select
+            value={pageSize}
+            onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
+            aria-label="Rows per page"
+          >
+            {pageSizeOptions!.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </PageSizeControl>
+      )}
+      {showPagination && (
+        <PageButtons>
           <PageButton
             type="button"
             onClick={() => handlePageChange(activePage - 1)}
@@ -211,11 +233,7 @@ export function Table<
           </PageButton>
           {getPageNumbers(activePage, totalPages).map((p, i) =>
             p === "..." ? (
-              <span
-                key={`e${i}`}
-                aria-hidden="true"
-                style={{ padding: "0 4px" }}
-              >
+              <span key={`e${i}`} aria-hidden="true" style={{ padding: "0 4px" }}>
                 …
               </span>
             ) : (
@@ -239,8 +257,24 @@ export function Table<
           >
             →
           </PageButton>
-        </PaginationBar>
+        </PageButtons>
       )}
+    </PaginationBar>
+  );
+
+  return (
+    <TableWrapper
+      $borderColor={borderColor}
+      $stickyPagination={stickyPagination}
+      className={className}
+      style={style}
+    >
+      {stickyPagination ? (
+        <TableScrollArea>{tableContent}</TableScrollArea>
+      ) : (
+        tableContent
+      )}
+      {pagination}
     </TableWrapper>
   );
 }
