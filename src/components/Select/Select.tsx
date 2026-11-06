@@ -1,4 +1,4 @@
-import { useCallback, useId, useRef, useState, useEffect } from "react";
+import { useCallback, useId, useRef, useState, useEffect, useLayoutEffect } from "react";
 import { createPortal } from "react-dom";
 import type { KeyboardEvent } from "react";
 import { ChevronDown, X } from "lucide-react";
@@ -21,8 +21,10 @@ import type { SelectProps, SelectOption } from "./Select.types";
 
 interface DropdownCoords {
   top: number;
+  bottom: number;
   left: number;
   width: number;
+  openUpward: boolean;
 }
 
 export function Select({
@@ -55,8 +57,10 @@ export function Select({
   const [searchQuery, setSearchQuery] = useState("");
   const [dropdownCoords, setDropdownCoords] = useState<DropdownCoords>({
     top: 0,
+    bottom: 0,
     left: 0,
     width: 0,
+    openUpward: false,
   });
   const [internalValue, setInternalValue] = useState(
     (defaultValue as string) ?? "",
@@ -86,10 +90,17 @@ export function Select({
       return;
     }
     const rect = triggerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const dropdownHeight = dropdownRef.current?.getBoundingClientRect().height ?? 200;
+    const spaceBelow = viewportHeight - rect.bottom;
+    const openUpward = spaceBelow < dropdownHeight + 4 && rect.top > spaceBelow;
+
     setDropdownCoords({
       top: rect.bottom + 4,
+      bottom: viewportHeight - rect.top + 4,
       left: rect.left,
       width: rect.width,
+      openUpward,
     });
   }, []);
 
@@ -104,6 +115,12 @@ export function Select({
       window.removeEventListener("scroll", updateDropdownCoords, true);
       window.removeEventListener("resize", updateDropdownCoords);
     };
+  }, [isOpen, updateDropdownCoords]);
+
+  useLayoutEffect(() => {
+    if (isOpen) {
+      updateDropdownCoords();
+    }
   }, [isOpen, updateDropdownCoords]);
 
   useEffect(() => {
@@ -359,7 +376,8 @@ export function Select({
             aria-label={placeholder ?? "Options"}
             style={{
               position: "fixed",
-              top: dropdownCoords.top,
+              top: dropdownCoords.openUpward ? "auto" : dropdownCoords.top,
+              bottom: dropdownCoords.openUpward ? dropdownCoords.bottom : "auto",
               left: dropdownCoords.left,
               width: dropdownCoords.width,
             }}

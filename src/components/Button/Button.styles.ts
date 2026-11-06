@@ -28,6 +28,7 @@ export const StyledButton = styled.button<{
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   cursor: pointer;
   text-decoration: none;
+  touch-action: manipulation;
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.primary[500]};

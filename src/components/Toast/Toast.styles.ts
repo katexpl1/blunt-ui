@@ -80,6 +80,12 @@ const toastContentStyles = css`
   max-width: 400px;
   padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[4]}`};
   border-radius: ${({ theme }) => theme.radius.md};
+
+  @media (max-width: 640px) {
+    min-width: unset;
+    max-width: unset;
+    width: 100%;
+  }
 `;
 
 const positionStyles: Record<ToastPosition, ReturnType<typeof css>> = {
@@ -187,6 +193,14 @@ export const ToastStack = styled.div<{ $position: ToastPosition }>`
     };
     return styles[$position];
   }}
+
+  @media (max-width: 640px) {
+    top: ${({ theme }) => theme.spacing[4]};
+    left: ${({ theme }) => theme.spacing[3]};
+    right: ${({ theme }) => theme.spacing[3]};
+    bottom: auto;
+    align-items: stretch;
+  }
 `;
 
 export const ToastMessage = styled.p`

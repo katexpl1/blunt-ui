@@ -2,6 +2,7 @@ import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 import type { TableProps, SortState } from "./Table.types";
 import { useTableSort } from "./Table.hooks";
 import { useTablePagination, getPageNumbers } from "./Table.hooks";
+import { Select } from "../Select/Select";
 import {
   TableWrapper,
   TableScrollArea,
@@ -204,17 +205,13 @@ export function Table<
       {showPageSizeOptions && (
         <PageSizeControl>
           Rows per page:
-          <select
-            value={pageSize}
+          <Select
+            size="sm"
+            value={String(pageSize)}
+            options={pageSizeOptions!.map((o) => ({ value: String(o), label: String(o) }))}
             onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
             aria-label="Rows per page"
-          >
-            {pageSizeOptions!.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          />
         </PageSizeControl>
       )}
       {showPagination && (

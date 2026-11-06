@@ -17,4 +17,8 @@ export const GlobalStyles = createGlobalStyle`
   button, input, select, textarea {
     font-family: inherit;
   }
+
+  button, a, [role="button"] {
+    touch-action: manipulation;
+  }
 `;

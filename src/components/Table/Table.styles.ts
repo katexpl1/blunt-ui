@@ -51,7 +51,8 @@ export const TableScrollArea = styled.div`
 `;
 
 export const StyledTable = styled.table<{ $size: TableSize }>`
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
   font-size: ${({ $size, theme }) => {
     const map: Record<TableSize, string> = {
@@ -270,6 +271,7 @@ export const PaginationBar = styled.div<{ $hasPageSizeOptions?: boolean }>`
   gap: ${({ theme }) => theme.spacing[1]};
   padding: ${({ theme }) => `${theme.spacing[2]} ${theme.spacing[3]}`};
   flex-shrink: 0;
+  flex-wrap: wrap;
 
   ${({ theme }) =>
     theme.brutalism
@@ -324,6 +326,8 @@ export const PageButtons = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing[1]};
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
 export const PageButton = styled.button<{ $active?: boolean }>`
