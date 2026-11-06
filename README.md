@@ -103,16 +103,18 @@ Sizes: `sm`, `md`. Shows an error message below when `error` is a string, turns 
 Same hidden-input pattern as Checkbox, but circular. Use multiple radios with the same `name` for a group, or manage `checked` yourself.
 
 ```tsx
-{["remote", "hybrid", "on-site"].map((option) => (
-  <Radio
-    key={option}
-    name="workMode"
-    value={option}
-    label={option}
-    checked={value === option}
-    onChange={(e) => setValue(e.target.value)}
-  />
-))}
+{
+  ["remote", "hybrid", "on-site"].map((option) => (
+    <Radio
+      key={option}
+      name="workMode"
+      value={option}
+      label={option}
+      checked={value === option}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  ));
+}
 ```
 
 ### Switch
@@ -441,13 +443,19 @@ Each input's `name` needs to match a key in `initialValues`. `reset()` puts ever
 The library ships with validators you can use in the `validate` function:
 
 ```tsx
-import { required, minLength, isEmail, isUrl, composeValidators } from "blunt-ui";
+import {
+  required,
+  minLength,
+  isEmail,
+  isUrl,
+  composeValidators,
+} from "blunt-ui";
 
 validate: (v) => ({
   email: composeValidators(required(), isEmail())(v.email),
   password: minLength(8)(v.password),
   website: isUrl()(v.website),
-})
+});
 ```
 
 `composeValidators` runs validators left to right and returns the first error. Available validators: `required`, `minLength`, `maxLength`, `isEmail`, `isUrl`, `pattern`.

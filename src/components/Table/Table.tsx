@@ -2,7 +2,6 @@ import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 import type { TableProps, SortState } from "./Table.types";
 import { useTableSort } from "./Table.hooks";
 import { useTablePagination, getPageNumbers } from "./Table.hooks";
-import { Select } from "../Select/Select";
 import {
   TableWrapper,
   TableScrollArea,
@@ -117,91 +116,87 @@ export function Table<
 
   const tableContent = (
     <StyledTable $size={size}>
-        {caption && <caption>{caption}</caption>}
-        <Thead
-          $headerColor={headerColor}
-          $borderColor={borderColor}
-          $stickyHeader={stickyHeader}
-        >
-          <Tr>
-            {columns.map((col) => (
-              <Th
-                key={col.key}
-                $size={size}
-                $bordered={bordered}
-                scope="col"
-                style={col.width ? { width: col.width } : undefined}
+      {caption && <caption>{caption}</caption>}
+      <Thead
+        $headerColor={headerColor}
+        $borderColor={borderColor}
+        $stickyHeader={stickyHeader}
+      >
+        <Tr>
+          {columns.map((col) => (
+            <Th
+              key={col.key}
+              $size={size}
+              $bordered={bordered}
+              scope="col"
+              style={col.width ? { width: col.width } : undefined}
+            >
+              {col.sortable ? (
+                <SortButton
+                  type="button"
+                  onClick={() => handleSort(col.key)}
+                  aria-label={`Sort by ${col.header}${activeSort?.key === col.key ? `, ${activeSort.direction}ending` : ""}`}
+                >
+                  {col.header}
+                  <SortIcon aria-hidden="true">
+                    {getSortIcon(activeSort, col.key)}
+                  </SortIcon>
+                </SortButton>
+              ) : (
+                col.header
+              )}
+            </Th>
+          ))}
+        </Tr>
+      </Thead>
+      <Tbody $striped={striped} $rowColor={rowColor} $stripeColor={stripeColor}>
+        {loading ? (
+          Array.from({ length: skeletonCount }).map((_, i) => (
+            <Tr key={i}>
+              {columns.map((col) => (
+                <SkeletonCell
+                  key={col.key}
+                  $size={size}
+                  $bordered={bordered}
+                  $borderColor={borderColor}
+                >
+                  <SkeletonLine />
+                </SkeletonCell>
+              ))}
+            </Tr>
+          ))
+        ) : isEmpty ? (
+          <tr>
+            <EmptyCell colSpan={columns.length}>{emptyMessage}</EmptyCell>
+          </tr>
+        ) : (
+          displayData.map((row, rowIndex) => {
+            const RowComponent = onRowClick ? ClickableTr : Tr;
+
+            return (
+              <RowComponent
+                key={getRowKey(row, rowIndex)}
+                onClick={onRowClick ? () => onRowClick(row) : undefined}
+                $accentColor={onRowClick ? borderColor : undefined}
               >
-                {col.sortable ? (
-                  <SortButton
-                    type="button"
-                    onClick={() => handleSort(col.key)}
-                    aria-label={`Sort by ${col.header}${activeSort?.key === col.key ? `, ${activeSort.direction}ending` : ""}`}
-                  >
-                    {col.header}
-                    <SortIcon aria-hidden="true">
-                      {getSortIcon(activeSort, col.key)}
-                    </SortIcon>
-                  </SortButton>
-                ) : (
-                  col.header
-                )}
-              </Th>
-            ))}
-          </Tr>
-        </Thead>
-        <Tbody
-          $striped={striped}
-          $rowColor={rowColor}
-          $stripeColor={stripeColor}
-        >
-          {loading ? (
-            Array.from({ length: skeletonCount }).map((_, i) => (
-              <Tr key={i}>
                 {columns.map((col) => (
-                  <SkeletonCell
+                  <Td
                     key={col.key}
                     $size={size}
                     $bordered={bordered}
                     $borderColor={borderColor}
                   >
-                    <SkeletonLine />
-                  </SkeletonCell>
+                    {col.render
+                      ? col.render(row[col.key], row, rowIndex)
+                      : String(row[col.key] ?? "") || " "}
+                  </Td>
                 ))}
-              </Tr>
-            ))
-          ) : isEmpty ? (
-            <tr>
-              <EmptyCell colSpan={columns.length}>{emptyMessage}</EmptyCell>
-            </tr>
-          ) : (
-            displayData.map((row, rowIndex) => {
-              const RowComponent = onRowClick ? ClickableTr : Tr;
-
-              return (
-                <RowComponent
-                  key={getRowKey(row, rowIndex)}
-                  onClick={onRowClick ? () => onRowClick(row) : undefined}
-                  $accentColor={onRowClick ? borderColor : undefined}
-                >
-                  {columns.map((col) => (
-                    <Td
-                      key={col.key}
-                      $size={size}
-                      $bordered={bordered}
-                      $borderColor={borderColor}
-                    >
-                      {col.render
-                        ? col.render(row[col.key], row, rowIndex)
-                        : String(row[col.key] ?? "") || " "}
-                    </Td>
-                  ))}
-                </RowComponent>
-              );
-            })
-          )}
-        </Tbody>
-      </StyledTable>
+              </RowComponent>
+            );
+          })
+        )}
+      </Tbody>
+    </StyledTable>
   );
 
   const pagination = (showPagination || showPageSizeOptions) && (
@@ -209,13 +204,17 @@ export function Table<
       {showPageSizeOptions && (
         <PageSizeControl>
           Rows per page:
-          <Select
-            size="sm"
-            value={String(pageSize)}
-            options={pageSizeOptions!.map((o) => ({ value: String(o), label: String(o) }))}
+          <select
+            value={pageSize}
             onChange={(e) => onPageSizeChange?.(Number(e.target.value))}
             aria-label="Rows per page"
-          />
+          >
+            {pageSizeOptions!.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </PageSizeControl>
       )}
       {showPagination && (
@@ -230,7 +229,11 @@ export function Table<
           </PageButton>
           {getPageNumbers(activePage, totalPages).map((p, i) =>
             p === "..." ? (
-              <span key={`e${i}`} aria-hidden="true" style={{ padding: "0 4px" }}>
+              <span
+                key={`e${i}`}
+                aria-hidden="true"
+                style={{ padding: "0 4px" }}
+              >
                 …
               </span>
             ) : (

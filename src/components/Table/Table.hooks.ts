@@ -132,7 +132,7 @@ export function useTablePagination<T>({
     onPageChange?.(newPage);
   };
 
-  const isServerPagination = isControlled || totalRows !== undefined;
+  const isServerPagination = totalRows !== undefined;
   const effectiveTotal = totalRows ?? data.length;
   const totalPages = pageSize
     ? Math.max(1, Math.ceil(effectiveTotal / pageSize))

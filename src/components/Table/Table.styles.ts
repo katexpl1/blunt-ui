@@ -46,7 +46,6 @@ export const TableWrapper = styled.div<{
 `;
 
 export const TableScrollArea = styled.div`
-  flex: 1;
   overflow: auto;
   min-height: 0;
 `;
@@ -283,13 +282,42 @@ export const PaginationBar = styled.div<{ $hasPageSizeOptions?: boolean }>`
         `}
 `;
 
-export const PageSizeControl = styled.div`
+export const PageSizeControl = styled.label`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing[2]};
   font-size: ${({ theme }) => theme.fontSizes.sm};
   color: ${({ theme }) => theme.colors.neutral[500]};
   white-space: nowrap;
+
+  select {
+    padding: ${({ theme }) => `${theme.spacing[1]} ${theme.spacing[2]}`};
+    font-size: ${({ theme }) => theme.fontSizes.sm};
+    font-family: inherit;
+    color: ${({ theme }) => theme.colors.neutral[900]};
+    background-color: ${({ theme }) => theme.colors.neutral[0]};
+    cursor: pointer;
+
+    ${({ theme }) =>
+      theme.brutalism
+        ? css`
+            border: ${theme.brutalism.borderWidth} solid
+              ${theme.colors.neutral[900]};
+          `
+        : css`
+            border: 1px solid ${theme.colors.neutral[300]};
+            border-radius: ${theme.radius.md};
+
+            &:hover {
+              border-color: ${theme.colors.neutral[400]};
+            }
+
+            &:focus {
+              outline: 2px solid ${theme.colors.primary[500]};
+              outline-offset: 1px;
+            }
+          `}
+  }
 `;
 
 export const PageButtons = styled.div`

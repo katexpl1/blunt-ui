@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import { Table } from "../Table";
-import type { TableSize, SortState } from "../Table.types";
+import type { TableSize } from "../Table.types";
 import { useTable } from "../Table.hooks";
 import { Badge } from "../../Badge";
 import type { BadgeVariant } from "../../Badge";
@@ -58,8 +58,6 @@ const largeData = Array.from({ length: 50 }, (_, i) => ({
   price: (i + 1) * 10,
   status: (["in stock", "low stock", "out of stock"] as const)[i % 3],
 }));
-
-const twentyRows = largeData.slice(0, 20);
 
 const columns = [
   { key: "id" as const, header: "ID", width: "60px" },
@@ -141,10 +139,6 @@ export const Default: Story = {
   args: { columns, data: sampleData, size: "md" },
 };
 
-export const StripedAndBordered: Story = {
-  args: { columns, data: sampleData, striped: true, bordered: true },
-};
-
 export const WithCustomRender: Story = {
   render: (args) => (
     <Table {...args} columns={statusColumns} data={sampleData} />
@@ -159,73 +153,44 @@ export const Sortable: Story = {
   args: { striped: true },
 };
 
-export const SortableControlled: Story = {
-  render: (args) => {
-    const [sort, setSort] = useState<SortState | null>(null);
-    const sorted = sort
-      ? [...sampleData].sort((a, b) => {
-          const av = a[sort.key as keyof typeof a];
-          const bv = b[sort.key as keyof typeof b];
-          const cmp = av < bv ? -1 : av > bv ? 1 : 0;
-
-          return sort.direction === "asc" ? cmp : -cmp;
-        })
-      : sampleData;
-
-    return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <Table
-          {...args}
-          columns={sortableColumns}
-          data={sorted}
-          sort={sort}
-          onSortChange={setSort}
-        />
-        <pre style={{ fontSize: 12, margin: 0 }}>
-          {JSON.stringify(sort, null, 2)}
-        </pre>
-      </div>
-    );
-  },
-  args: { striped: true },
-};
-
-export const WithUseTable: Story = {
+export const WithPagination: Story = {
   render: (args) => {
     const { sort, page, onSortChange, onPageChange } = useTable({
       defaultPage: 1,
     });
+    const [pageSize, setPageSize] = useState(10);
+
+    const handlePageSizeChange = (newSize: number) => {
+      setPageSize(newSize);
+      onPageChange(1);
+    };
 
     const sorted = sort
       ? [...largeData].sort((a, b) => {
           const av = a[sort.key as keyof typeof a];
           const bv = b[sort.key as keyof typeof b];
           const cmp = av < bv ? -1 : av > bv ? 1 : 0;
-
           return sort.direction === "asc" ? cmp : -cmp;
         })
       : largeData;
 
     return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <Table
-          {...args}
-          columns={sortableColumns}
-          data={sorted}
-          sort={sort}
-          onSortChange={onSortChange}
-          page={page}
-          onPageChange={onPageChange}
-          pageSize={8}
-          totalRows={largeData.length}
-        />
-        <pre style={{ fontSize: 12, margin: 0 }}>
-          {JSON.stringify({ sort, page }, null, 2)}
-        </pre>
-      </div>
+      <Table
+        {...args}
+        columns={sortableColumns}
+        data={sorted}
+        sort={sort}
+        onSortChange={onSortChange}
+        page={page}
+        onPageChange={onPageChange}
+        pageSize={pageSize}
+        pageSizeOptions={[5, 10, 20, 50]}
+        onPageSizeChange={handlePageSizeChange}
+        style={{ maxHeight: 400 }}
+      />
     );
   },
-  args: { striped: true },
+  args: { striped: true, stickyHeader: true, stickyPagination: true },
 };
 
 export const Loading: Story = {
@@ -236,17 +201,12 @@ export const Empty: Story = {
   args: { columns, data: [], emptyMessage: "No products found" },
 };
 
-export const Paginated: Story = {
-  render: (args) => <Table {...args} columns={columns} data={largeData} />,
-  args: { striped: true, pageSize: 8 },
-};
-
 export const StickyHeader: Story = {
   render: (args) => (
     <Table
       {...args}
       columns={columns}
-      data={twentyRows}
+      data={largeData.slice(0, 20)}
       style={{ maxHeight: 240 }}
     />
   ),
@@ -279,56 +239,4 @@ export const WithRowClick: Story = {
       </div>
     );
   },
-};
-
-export const FullyCustomized: Story = {
-  args: {
-    columns,
-    data: sampleData,
-    striped: true,
-    bordered: true,
-    borderColor: "#6366f1",
-    headerColor: "#6366f1",
-    rowColor: "#eef2ff",
-    stripeColor: "#c7d2fe",
-  },
-};
-
-export const WithPageSizeSelector: Story = {
-  render: (args) => {
-    const { sort, page, onSortChange, onPageChange } = useTable({ defaultPage: 1 });
-    const [pageSize, setPageSize] = useState(10);
-
-    const handlePageSizeChange = (newSize: number) => {
-      setPageSize(newSize);
-      onPageChange(1);
-    };
-
-    const sorted = sort
-      ? [...largeData].sort((a, b) => {
-          const av = a[sort.key as keyof typeof a];
-          const bv = b[sort.key as keyof typeof b];
-          const cmp = av < bv ? -1 : av > bv ? 1 : 0;
-          return sort.direction === "asc" ? cmp : -cmp;
-        })
-      : largeData;
-
-    return (
-      <Table
-        {...args}
-        columns={sortableColumns}
-        data={sorted}
-        sort={sort}
-        onSortChange={onSortChange}
-        page={page}
-        onPageChange={onPageChange}
-        pageSize={pageSize}
-        pageSizeOptions={[5, 10, 20, 50]}
-        onPageSizeChange={handlePageSizeChange}
-        totalRows={largeData.length}
-        style={{ height: 380 }}
-      />
-    );
-  },
-  args: { striped: true, stickyHeader: true, stickyPagination: true },
 };
